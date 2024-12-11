@@ -4,12 +4,11 @@ import com.prodyna.person_backend.core.PersonEntity;
 import com.prodyna.person_backend.core.PersonMapper;
 import com.prodyna.person_backend.core.PersonRepository;
 import com.prodyna.person_backend.domain.Person;
-import java.util.Objects;
-import java.util.UUID;
-
 import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.api.trace.Span;
+import java.util.Objects;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -45,8 +44,9 @@ public class PersonController {
     }
     Person model = personMapper.toModel(personRepository.save(entity));
     Span currentSpan = Span.current();
-    currentSpan.addEvent("person.create", Attributes.of(
-            AttributeKey.stringKey("person.id"), entity.getId().toString()));
+    currentSpan.addEvent(
+        "person.create",
+        Attributes.of(AttributeKey.stringKey("person.id"), entity.getId().toString()));
     currentSpan.setAttribute("person.name", entity.getFirstName() + " " + entity.getLastName());
     return model;
   }
