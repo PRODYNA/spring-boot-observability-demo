@@ -6,19 +6,24 @@ import com.prodyna.person_backend.core.PersonRepository;
 import com.prodyna.person_backend.domain.Person;
 import java.util.Objects;
 import java.util.UUID;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/person")
-@RequiredArgsConstructor
 public class PersonController {
 
   private final PersonRepository personRepository;
 
   private final PersonMapper personMapper;
+
+  @Autowired
+  public PersonController(PersonRepository personRepository, PersonMapper personMapper) {
+    this.personRepository = personRepository;
+    this.personMapper = personMapper;
+  }
 
   @GetMapping("/{id}")
   public Person fetchPerson(@PathVariable UUID id) {
