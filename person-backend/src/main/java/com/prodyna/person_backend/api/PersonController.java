@@ -45,9 +45,9 @@ public class PersonController {
     }
     Person model = personMapper.toModel(personRepository.save(entity));
     Span currentSpan = Span.current();
-    currentSpan.addEvent("person_create", Attributes.of(
-            AttributeKey.stringKey("id"), entity.getId().toString()));
-    currentSpan.setAttribute("person_name", entity.getFirstName() + " " + entity.getLastName());
+    currentSpan.addEvent("person.create", Attributes.of(
+            AttributeKey.stringKey("person.id"), entity.getId().toString()));
+    currentSpan.setAttribute("person.name", entity.getFirstName() + " " + entity.getLastName());
     return model;
   }
 
