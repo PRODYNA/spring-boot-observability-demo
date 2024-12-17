@@ -31,28 +31,28 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
 
-#  service_mesh_profile
+  #  service_mesh_profile
   #  {
-#    mode      = "Istio"
-#    revisions = ["asm-1-23"]
-#    internal_ingress_gateway_enabled = true
-#    external_ingress_gateway_enabled = true
-#  }
+  #    mode      = "Istio"
+  #    revisions = ["asm-1-23"]
+  #    internal_ingress_gateway_enabled = true
+  #    external_ingress_gateway_enabled = true
+  #  }
 
-#  network_profile {
-#    network_plugin     = "azure"
-#    network_policy     = "cilium"
-#    network_data_plane = "cilium"
-#    dns_service_ip     = "172.18.0.10"
-#    // pod_cidr       = "172.17.0.0/16"
-#    service_cidr = "172.18.0.0/16"
+  #  network_profile {
+  #    network_plugin     = "azure"
+  #    network_policy     = "cilium"
+  #    network_data_plane = "cilium"
+  #    dns_service_ip     = "172.18.0.10"
+  #    // pod_cidr       = "172.17.0.0/16"
+  #    service_cidr = "172.18.0.0/16"
 
-    #    load_balancer_profile {
-    #      outbound_ip_address_ids = [
-    #        azurerm_public_ip.ingress.id
-    #      ]
-    #    }
- # }
+  #    load_balancer_profile {
+  #      outbound_ip_address_ids = [
+  #        azurerm_public_ip.ingress.id
+  #      ]
+  #    }
+  # }
 
   # Azure AD authentication with Azure RBAC
   azure_active_directory_role_based_access_control {
@@ -74,7 +74,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     secret_rotation_interval = "30m"
   }
 
-  image_cleaner_enabled = true
+  image_cleaner_enabled        = true
   image_cleaner_interval_hours = 96
 }
 

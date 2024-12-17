@@ -1,26 +1,25 @@
 resource "helm_release" "opentelemetry-operator" {
-    chart      = "opentelemetry-operator"
-    repository = local.helm.repository.open-telemetry
-    name       = "opentelemetry-operator"
-    namespace  = kubernetes_namespace.observability.metadata[0].name
-    version    = "0.75.1"
+  chart      = "opentelemetry-operator"
+  repository = local.helm.repository.open-telemetry
+  name       = "opentelemetry-operator"
+  namespace  = kubernetes_namespace.observability.metadata[0].name
+  version    = "0.75.1"
 
-    values = [
-        file("helm/opentelemetry-operator.yaml"),
-    ]
+  values = [
+    file("helm/opentelemetry-operator.yaml"),
+  ]
 
-    depends_on = [
-        helm_release.prometheus-operator-crds
-    ]
+  depends_on = [
+    helm_release.prometheus-operator-crds
+  ]
 }
 
 resource "kubernetes_config_map_v1" "stage" {
-    metadata {
-        name      = "stage"
-        namespace = kubernetes_namespace.observability.metadata[0].name
-    }
-
-    data = {
-        "stage" = "dev"
-    }
+  metadata {
+    name      = "stage"
+    namespace = kubernetes_namespace.observability.metadata[0].name
+  }
+  data = {
+    "STAGE" = "prod"
+  }
 }

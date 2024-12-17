@@ -1,7 +1,7 @@
 resource "kubernetes_namespace" "loki" {
-    metadata {
-        name = "loki"
-    }
+  metadata {
+    name = "loki"
+  }
 }
 
 /*

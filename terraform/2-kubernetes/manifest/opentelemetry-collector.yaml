@@ -21,10 +21,6 @@ spec:
   envFrom:
     - configMapRef:
         name: stage
-    - secretRef:
-        name: datadog
-    - secretRef:
-        name: azuremonitor
   env:
     - name: "OTEL_COLLECTOR_NAME"
       valueFrom:
@@ -502,23 +498,14 @@ spec:
           X-Scope-OrgID: "1"
 
       otlphttp/mimir:
-        endpoint: http://mimir-nginx.observability/otlp
+        endpoint: http://mimir-nginx.mimir/otlp
         tls:
           insecure: true
 
       otlp/tempo:
-        endpoint: tempo-distributor.observability:4317
+        endpoint: tempo.tempo:4317
         tls:
           insecure: true
-
-      datadog:
-        api:
-          site: datadoghq.eu
-          key: ${env:DD_API_KEY}
-
-      azuremonitor:
-        # instrumentation_key: ${env:AZUREMONITOR_INSTRUMENTATION_KEY}
-        connection_string: ${env:AZUREMONITOR_CONNECTION_STRING}
 
     connectors:
       spanmetrics:
@@ -599,7 +586,7 @@ spec:
         logs:
           receivers: [k8s_cluster, k8sobjects, filelog, k8s_events, exceptions]
           processors: [batch, memory_limiter, k8sattributes, resourcedetection, resource, attributes, attributes/logs, filter]
-          exporters: [otlphttp/loki] # , signaltometrics
+          exporters: [debug] #otlphttp/loki , signaltometrics
 
       telemetry:
         metrics:

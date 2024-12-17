@@ -20,7 +20,7 @@ resource "helm_release" "traefik" {
   }
 
   set {
-    name = "service.annotations.service\\.beta\\.kubernetes\\.io/azure-pip-name"
+    name  = "service.annotations.service\\.beta\\.kubernetes\\.io/azure-pip-name"
     value = data.azurerm_public_ip.traefik.name
   }
 

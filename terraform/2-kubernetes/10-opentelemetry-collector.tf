@@ -5,7 +5,7 @@ resource "kubernetes_cluster_role" "opentelemetry-collector" {
   rule {
     api_groups = [""]
     resources = ["configmaps", "persistentvolumeclaims", "persistentvolumes", "pods", "serviceaccounts",
-      "services", "endpoints", "resourcequotas", "replicationcontrollers", "replicationcontrollers/status"]
+    "services", "endpoints", "resourcequotas", "replicationcontrollers", "replicationcontrollers/status"]
     verbs = ["create", "delete", "get", "list", "watch", "update"]
   }
 
@@ -186,6 +186,22 @@ resource "kubernetes_manifest" "coredns-service" {
 # Add ServiceMonitor for CoreDNS
 resource "kubernetes_manifest" "coredns-servicemonitor" {
   manifest = yamldecode(file("manifest/coredns-servicemonitor.yaml"))
+}
+
+resource "kubernetes_persistent_volume_claim_v1" "geoip" {
+  metadata {
+    name      = "geoip"
+    namespace = kubernetes_namespace.observability.metadata[0].name
+  }
+  spec {
+    access_modes       = ["ReadWriteMany"]
+    storage_class_name = "azurefile"
+    resources {
+      requests = {
+        storage = "1Gi"
+      }
+    }
+  }
 }
 
 resource "helm_release" "opentelemetry-collector" {

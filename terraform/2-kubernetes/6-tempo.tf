@@ -16,6 +16,6 @@ resource "helm_release" "tempo" {
   ]
 
   depends_on = [
-      helm_release.prometheus-operator-crds
+    helm_release.prometheus-operator-crds
   ]
 }
