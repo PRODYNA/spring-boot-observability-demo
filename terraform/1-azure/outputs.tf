@@ -36,7 +36,10 @@ output "project_name" {
   value = var.project_name
 }
 
-output "traefik_name" {
+output "app_name" {
   value = "${var.project_name}.prodyna.wtf"
 }
 
+output "grafana_name" {
+  value = "grafana.${var.project_name}.prodyna.wtf"
+}
