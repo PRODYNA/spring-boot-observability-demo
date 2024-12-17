@@ -9,6 +9,16 @@ resource "helm_release" "grafana" {
         file("helm/grafana.yaml"),
     ]
 
+    set {
+        name = "ingress.hosts[0]"
+        value = data.terraform_remote_state.azure.outputs.grafana_name
+    }
+
+    set {
+        name = "ingress.tls[0].hosts[0]"
+        value = data.terraform_remote_state.azure.outputs.grafana_name
+    }
+
     depends_on = [
         helm_release.prometheus-operator-crds
     ]

@@ -1,0 +1,131 @@
+serviceMonitor:
+  enabled: true
+ingress:
+  enabled: true
+  #ingressClassName: traefik
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-traefik
+  pathType: Prefix
+  hosts:
+    - dummy
+  tls:
+    - secretName: grafana-tls
+      hosts:
+        - dummy
+resources:
+  limits:
+    cpu: 1000m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+
+      - name: Mimir
+        uid: prometheus
+        type: prometheus
+        url: http://mimir-nginx.mimir/prometheus
+        access: proxy
+        jsonData:
+          manageAlerts: true
+          alertmanagerUid: alertmanager
+          prometheusType: Mimir
+          exemplarTraceIdDestinations:
+            - name: trace_id
+              datasourceUid: tempo
+
+      #    - name: Mimir Alertmanager
+      #      uid: alertmanager
+      #      type: alertmanager
+      #      url: http://mimir-nginx
+      #      access: proxy
+      #      jsonData:
+      #        handleGrafanaManagedAlerts: true
+      #        exemplarTraceIdDestinations:
+      #        - name: trace_id
+      #          datasourceUid: tempo
+
+      - name: Loki
+        uid: loki
+        type: loki
+        url: http://loki-gateway.loki
+        access: proxy
+        editable: false
+        orgId: 1
+        secureJsonData:
+          httpHeaderValue1: '1'
+        correlations:
+          - targetUID: tempo
+            label: "Tempo traces"
+            description: "Related traces stored in Tempo"
+          - targetUID: prometheus
+            label: "Logs to metrics"
+            description: "Related metrics stored in Mimir"
+            config:
+              type: query
+              target:
+                expr: "{ job=\"$${__value.job\" }"
+              field: "trace_id"
+        jsonData:
+          httpHeaderName1: 'X-Scope-OrgID'
+          manageAlerts: false
+          derivedFields:
+            - name: "trace_id"
+              matcherRegex: '"[tT]race[_-]?[iI][dD]":"(\w+)"'
+              url: "$${__value.raw}"
+              datasourceUid: tempo
+            - name: "span_id"
+              matcherRegex: '"[sS]pan[_-]?[iI][dD]":"(\w+)"'
+              url: "{span:id=\"$${__value.raw}\"}"
+              datasourceUid: tempo
+
+      - name: Tempo
+        editable: true
+        type: tempo
+        uid: tempo
+        url: http://tempo-query-frontend.tempo:3100
+        access: proxy
+        jsonData:
+          tracesToLogsV2:
+            datasourceUid: 'loki'
+            spanStartTimeShift: '-1m'
+            spanEndTimeShift: '1m'
+            tags:
+              - key: "service.name"
+                value: "service_name"
+            filterByTraceID: true
+            filterBySpanID: false
+            customQuery: false
+            # query: '{$${__tags}} |="$${__span.trace_id}" |= "$${__span.span_id}"'
+          serviceMap:
+            datasourceUid: 'prometheus'
+          tracesToMetrics:
+            datasourceUid: 'prometheus'
+            spanStartTimeShift: '-1h'
+            spanEndTimeShift: '+1h'
+            tags: [{ key: 'service.name', value: 'service' }]
+            queries:
+              - name: 'Metrics latency'
+                query: 'sum(rate(traces_spanmetrics_latency_bucket{$$__tags}[5m]))'
+              - name: 'Metrics error rate'
+                query: 'sum(rate(traces_spanmetrics_error_rate{$$__tags}[5m]))'
+              - name: 'Metrics throughput'
+                query: 'sum(rate(traces_spanmetrics_throughput{$$__tags}[5m]))'
+              - name: 'Metrics duration'
+                query: 'sum(rate(traces_spanmetrics_duration_sum{$$__tags}[5m]))'
+          nodeGraph:
+            enabled: true
+          search:
+            hide: false
+          lokiSearch:
+            datasourceUid: 'loki'
+          traceQuery:
+            timeShiftEnabled: true
+            spanStartTimeShift: '1h'
+            spanEndTimeShift: '-1h'
+          spanBar:
+            type: 'Tag'
+            tag: 'http.path'
