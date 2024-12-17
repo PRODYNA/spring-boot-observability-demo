@@ -8,7 +8,7 @@ resource "helm_release" "tempo" {
   chart      = "tempo"
   repository = local.helm.repository.grafana
   name       = "tempo"
-  namespace  = kubernetes_namespace.observability.metadata[0].name
+  namespace  = kubernetes_namespace.tempo.metadata[0].name
   version    = "1.16.0"
 
   values = [

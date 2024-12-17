@@ -13,3 +13,14 @@ resource "helm_release" "opentelemetry-operator" {
         helm_release.prometheus-operator-crds
     ]
 }
+
+resource "kubernetes_config_map_v1" "stage" {
+    metadata {
+        name      = "stage"
+        namespace = kubernetes_namespace.observability.metadata[0].name
+    }
+
+    data = {
+        "stage" = "dev"
+    }
+}
