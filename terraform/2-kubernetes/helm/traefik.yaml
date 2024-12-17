@@ -1,13 +1,12 @@
 deployment:
-  #kind: DaemonSet
-  kind: Deployment
+  kind: DaemonSet
   replicas: null
   revisionHistoryLimit: 3
   annotations: {}
   podAnnotations: {}
 ingressClass:  # @schema additionalProperties: false
   enabled: true
-  isDefaultClass: false
+  isDefaultClass: true
   name: "traefik"
 
 experimental:
@@ -15,8 +14,11 @@ experimental:
     enabled: true
 
 gatewayClass:  # @schema additionalProperties: false
+  # -- When providers.kubernetesGateway.enabled and gateway.enabled, deploy a default gatewayClass
   enabled: true
+  # -- Set a custom name to GatewayClass
   name: ""
+  # -- Additional gatewayClass labels (e.g. for filtering gateway objects by custom labels)
   labels: {}
 
 ingressRoute:
@@ -24,10 +26,6 @@ ingressRoute:
     enabled: true
   healthcheck:
     enabled: true
-#    entryPoints:
-#      - traefik
-#      - web
-#      - websecure
 
 providers:  # @schema additionalProperties: false
   kubernetesCRD:
@@ -38,7 +36,7 @@ providers:  # @schema additionalProperties: false
       enabled: true
   kubernetesGateway:
     enabled: true
-    experimentalChannel: false
+    experimentalChannel: true
 
 logs:
   general:
@@ -63,8 +61,7 @@ metrics:
       # -- Allows reporter to send metrics to the OpenTelemetry Collector without using a secured protocol.
       insecure: true
 
-tracing:  # @schema additionalProperties: false
-  addInternals: false
+tracing:
   otlp:
     enabled: true
     grpc:
@@ -83,6 +80,7 @@ ports:
   traefik:
     port: 8080
     nodePort: 30880
+    # Expose this port so it can be used for health checks
     expose:
       default: true
   web:
@@ -103,7 +101,7 @@ ports:
 service:
   single: true
   spec:
-    externalTrafficPolicy: "Cluster"
+    externalTrafficPolicy: "Local"
   annotations:
     service.beta.kubernetes.io/port_80_health-probe_protocol: "http"
     service.beta.kubernetes.io/port_80_health-probe_port: "8080" # Must match ports.traefik.port
@@ -114,7 +112,7 @@ service:
     service.beta.kubernetes.io/port_8080_no_lb_rule: "true" # Do not create a load balancer rule for port 8080
 
 autoscaling:
-  enabled: true
+  enabled: false
   minReplicas: 1
   maxReplicas: 3
   metrics:
@@ -127,10 +125,10 @@ autoscaling:
 
 resources:
   requests:
-    cpu: "100m"
+    cpu: "50m"
     memory: "50Mi"
   limits:
-    cpu: "300m"
+    cpu: "200m"
     memory: "150Mi"
 
 affinity:
@@ -144,3 +142,14 @@ affinity:
 
 gateway:
   namespacePolicy: All
+
+podDisruptionBudget:  # @schema additionalProperties: false
+  enabled: true
+  minAvailable:    1
+
+updateStrategy:  # @schema additionalProperties: false
+  # -- Customize updateStrategy of Deployment or DaemonSet
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 0  # @schema type:[integer, string, null]
+    maxSurge: 2        # @schema type:[integer, string, null]

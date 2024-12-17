@@ -29,7 +29,7 @@ grafana.ini:
   tracing.opentelemetry.otlp:
     address: opentelemetry-collector.observability:4317
     propagation: w3c
-    
+
 datasources:
   datasources.yaml:
     apiVersion: 1
