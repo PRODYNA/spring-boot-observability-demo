@@ -1,0 +1,62 @@
+tempo:
+  persistence:
+    enabled: true
+    size: 100Gi
+
+global_overrides:
+  metrics_generator_processors:
+    - service-graphs
+    - span-metrics
+
+metricsGenerator:
+  enabled: true
+  config:
+    storage:
+      remote_write:
+        - url: http://mimir-nginx.mimir/api/v1/push
+          send_exemplars: true
+    processor:
+      service_graphs:
+        dimensions: []
+      span_metrics:
+        enable_target_info: true
+        dimensions:
+          - "http.status.code"
+          - "http.method"
+          - "enduser.id"
+          - "client.address"
+          - "geo.country_name"
+          - "geo.city_name"
+          - "geo.continent_code"
+          - "geo.country_code"
+          - "geo.country_iso_code"
+          - "geo.location.lat"
+          - "geo.location.lon"
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClass: managed
+
+ingester:
+  persistence:
+    enabled: true
+    size: 100Gi
+    storageClass: azurefile
+
+distributor:
+  autoscaling:
+    enabled: true
+
+querier:
+  autoscaling:
+    enabled: true
+
+queryFrontend:
+  autoscaling:
+    enabled: true
+
+traces:
+  otlp:
+    grpc:
+      # Enable gRPC port for OTLP on port 4317
+      enabled: true
