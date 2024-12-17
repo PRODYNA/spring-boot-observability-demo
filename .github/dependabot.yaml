@@ -1,0 +1,17 @@
+version: 2
+updates:
+  - package-ecosystem: "docker"
+    directory: "person-backend"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "mvn"
+    directory: "person-backend"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "terraform"
+    directories:
+      - "/terraform/1-azure"
+      - "/terraform/2-kubernetes"
+      - "/terraform/3-app"
+    schedule:
+      interval: "daily"

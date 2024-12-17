@@ -1,0 +1,15 @@
+rbac:
+  create: true
+prometheus:
+  monitor:
+    enabled: true
+    http:
+      honorLabels: true
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 100Mi
+  limits:
+    cpu: 200m
+    memory: 200Mi
