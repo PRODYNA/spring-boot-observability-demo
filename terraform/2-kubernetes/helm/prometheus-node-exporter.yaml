@@ -1,0 +1,22 @@
+prometheus:
+  monitor:
+    enabled: true
+  podMonitor:
+    enabled: true
+  relabelings:
+    - action: replace
+      sourceLabels: [__meta_kubernetes_pod_node_name]
+      targetLabel: nodename
+resources:
+  requests:
+    cpu: 100m
+    memory: 30Mi
+  limits:
+    cpu: 200m
+    memory: 50Mi
+hostProcFsMount:
+  mountPropagation: "HostToContainer"
+hostSysFsMount:
+  mountPropagation: "HostToContainer"
+extraArgs:
+  - "--collector.cgroups"
