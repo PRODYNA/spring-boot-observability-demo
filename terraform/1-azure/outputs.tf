@@ -7,16 +7,6 @@ output "kubernetes_cluster" {
   sensitive = true
 }
 
-# output "log_analytics_workspace" {
-#   value     = azurerm_log_analytics_workspace.monitoring
-#   sensitive = true
-# }
-#
-# output "application_insights" {
-#   value     = azurerm_application_insights.monitoring
-#   sensitive = true
-# }
-
 output "container_registry" {
   value     = azurerm_container_registry.main
   sensitive = true

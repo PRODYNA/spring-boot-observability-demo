@@ -4,4 +4,9 @@ COPY / /app
 
 WORKDIR /app
 
-RUN mvn clean package
+RUN mvn package -DskipTests
+
+FROM eclipse-temurin:21-alpine
+
+COPY --from=build /app/target/person-backend-0.0.1-SNAPSHOT.jar /app.jar
+
