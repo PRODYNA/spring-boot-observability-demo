@@ -1,0 +1,12 @@
+ingress:
+  enabled: true
+  annotations: {}
+  hosts:
+    - host: dummy
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    - secretName: person-tls
+      hosts:
+        - dummy
