@@ -43,3 +43,8 @@ output "app_name" {
 output "grafana_name" {
   value = "grafana.${var.project_name}.prodyna.wtf"
 }
+
+output "database" {
+  value = local.database
+  sensitive = true
+}
