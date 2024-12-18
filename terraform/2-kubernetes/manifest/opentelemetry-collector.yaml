@@ -586,7 +586,7 @@ spec:
         logs:
           receivers: [k8s_cluster, k8sobjects, filelog, k8s_events, exceptions]
           processors: [batch, memory_limiter, k8sattributes, resourcedetection, resource, attributes, attributes/logs, filter]
-          exporters: [debug] #otlphttp/loki , signaltometrics
+          exporters: [otlphttp/loki] # , signaltometrics
 
       telemetry:
         metrics:

@@ -23,3 +23,16 @@ resource "helm_release" "grafana" {
     helm_release.prometheus-operator-crds
   ]
 }
+
+resource "kubernetes_config_map_v1" "grafana-dashboard-worldmap" {
+  metadata {
+    name      = "grafana-dashboard-worldmap"
+    namespace = kubernetes_namespace.observability.metadata[0].name
+    labels = {
+      "grafana_dashboard" = "1"
+    }
+  }
+  data = {
+      "worldmap.json" = file("dashboard/worldmap.yaml")
+  }
+}

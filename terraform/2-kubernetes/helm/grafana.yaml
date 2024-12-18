@@ -207,6 +207,12 @@ dashboards:
       revision: 3
       datasource: prometheus
 
+sidecar:
+  alerts:
+    enabled: true
+  dashboards:
+    enabled: true
+
 alerting:
   policies.yaml:
     apiVersion: 1
