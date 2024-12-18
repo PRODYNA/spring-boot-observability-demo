@@ -17,3 +17,13 @@ image:
 
 serviceMonitor:
   enabled: true
+
+properties:
+  otel:
+    sdk:
+      disabled: false
+    exporter:
+      otlp:
+        protocol: http/protobuf
+        endpoint: http://opentelemetry-collector.observability:4317
+        enabled: true

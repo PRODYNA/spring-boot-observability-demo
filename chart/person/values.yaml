@@ -145,7 +145,7 @@ properties:
     exporter:
       otlp:
         protocol: http/protobuf
-        endpoint: https://dev-yasm.prodyna.com:443
+        endpoint: https://localhost:4317
         enabled: true
 
 secrets:

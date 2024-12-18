@@ -8,7 +8,7 @@ RUN sed -i "s/VERSION/$VERSION/g" /app/person/pom.xml
 
 WORKDIR /app/person
 
-RUN mvn install -DskipTests
+RUN ./mvnw install -DskipTests
 
 FROM eclipse-temurin:21-alpine
 

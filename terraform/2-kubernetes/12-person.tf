@@ -14,7 +14,6 @@ resource "helm_release" "person" {
     file("helm/person.yaml"),
   ]
 
-
   set {
     name = "image.repository"
     value = data.terraform_remote_state.azure.outputs.fq_image_name
@@ -24,6 +23,7 @@ resource "helm_release" "person" {
     name = "image.tag"
     value = data.terraform_remote_state.azure.outputs.image_tag
   }
+
   set {
     name  = "ingress.hosts[0].host"
     value = data.terraform_remote_state.azure.outputs.app_name

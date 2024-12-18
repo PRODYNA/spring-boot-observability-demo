@@ -7,3 +7,7 @@ metadata:
 data:
   SPRING_DATASOURCE_URL: "{{ .Values.properties.spring.datasource.url }}"
   SPRING_DATASOURCE_USERNAME: "{{ .Values.properties.spring.datasource.username }}"
+  OTEL_SDK_DISABLED: "{{ .Values.properties.otel.sdk.disabled }}"
+  OTEL_EXPORTER_OTLP_ENABLED: "{{ .Values.properties.otel.exporter.otlp.enabled }}"
+  OTEL_EXPORTER_OTLP_PROTOCOL: "{{ .Values.properties.otel.exporter.otlp.protocol }}"
+  OTEL_EXPORTER_OTLP_ENDPOINT: "{{ .Values.properties.otel.exporter.otlp.endpoint }}"
