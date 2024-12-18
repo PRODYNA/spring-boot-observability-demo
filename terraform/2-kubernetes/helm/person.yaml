@@ -11,3 +11,9 @@ ingress:
     - secretName: person-tls
       hosts:
         - dummy
+
+image:
+  pullPolicy: Always
+
+serviceMonitor:
+  enabled: true
