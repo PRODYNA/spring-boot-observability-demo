@@ -22,3 +22,9 @@ otel:
       protocol: http/protobuf
       endpoint: https://dev-yasm.prodyna.com:443
       enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,prometheus"

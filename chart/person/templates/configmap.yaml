@@ -5,4 +5,5 @@ metadata:
   labels:
     {{- include "person.labels" . | nindent 4 }}
 data:
-  application.yaml: "{{ .Values.properties | toYaml | nindent 2 }}"
+  SPRING_DATASOURCE_URL: "{{ .Values.properties.spring.datasource.url }}"
+  SPRING_DATASOURCE_USERNAME: "{{ .Values.properties.spring.datasource.username }}"

@@ -36,7 +36,7 @@ resource "helm_release" "person" {
 
   set {
     name = "properties.spring.datasource.url"
-    value = data.terraform_remote_state.azure.outputs.database.person.hostname
+    value = "jdbc:postgresql://${data.terraform_remote_state.azure.outputs.database.person.hostname}:5432/person"
   }
 
   set {
@@ -45,7 +45,7 @@ resource "helm_release" "person" {
   }
 
   set {
-    name = "properties.spring.datasource.password"
+    name = "secrets.spring.datasource.password"
     value = data.terraform_remote_state.azure.outputs.database.person.password
   }
 }

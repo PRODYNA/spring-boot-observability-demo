@@ -10,7 +10,7 @@ resource "azurerm_postgresql_flexible_server" "app" {
   resource_group_name           = azurerm_resource_group.main.name
   location                      = azurerm_resource_group.main.location
   version                       = "12"
-  public_network_access_enabled = false
+  public_network_access_enabled = true
   administrator_login           = "psqladmin"
   administrator_password        = random_password.psqladmin.result
 
@@ -35,4 +35,12 @@ locals {
       password = random_password.psqladmin.result
     }
   }
+}
+
+# allow access from everythwere
+resource "azurerm_postgresql_flexible_server_firewall_rule" "allow_all" {
+  name                = "AllowAll"
+  server_id = azurerm_postgresql_flexible_server.app.id
+  start_ip_address    = "0.0.0.0"
+  end_ip_address      = "255.255.255.255"
 }
