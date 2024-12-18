@@ -5,7 +5,7 @@ locals {
   }
   resource_prefix = local.tags.project
   image = {
-    repository = "sample"
-    tag        = "1.1"
+    repository = "person"
+    tag        = "1.0.0"
   }
 }

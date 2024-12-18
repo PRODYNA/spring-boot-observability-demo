@@ -11,12 +11,12 @@
 #   }
 # }
 #
-# # Build container image insize of ACR
-# resource "terraform_data" "build_sample" {
-#   provisioner "local-exec" {
-#     command = "az acr build -r ${azurerm_container_registry.main.name} -t ${local.image.repository}:${local.image.tag} ../../sample -g ${data.azurerm_resource_group.main.name}"
-#   }
-#   depends_on = [
-#     time_sleep.wait_120_seconds
-#   ]
-# }
+# Build container image insize of ACR
+resource "terraform_data" "build_sample" {
+  provisioner "local-exec" {
+    command = "az acr build -r ${azurerm_container_registry.main.name} --build-arg VERSION=${local.image.tag} -t ${local.image.repository}:${local.image.tag} ../../app/person -g ${azurerm_resource_group.main.name}"
+  }
+#  depends_on = [
+#    time_sleep.wait_120_seconds
+#  ]
+}
