@@ -1,12 +1,20 @@
 FROM maven:3.9.9-eclipse-temurin-21-alpine AS build
 
-COPY / /app
+ARG VERSION=1.0.0
 
-WORKDIR /app
 
-RUN mvn package -DskipTests
+COPY / /app/person
+RUN sed -i "s/VERSION/$VERSION/g" /app/person/pom.xml
+
+WORKDIR /app/person
+
+RUN mvn install -DskipTests
 
 FROM eclipse-temurin:21-alpine
 
-COPY --from=build /app/target/person-backend-0.0.1-SNAPSHOT.jar /app.jar
+ARG VERSION=1.0.0
 
+COPY --from=build /app/person/target/person-$VERSION.jar /app/person.jar
+COPY /src/main/resources/application.properties /app/application.properties
+
+CMD ["java", "-jar", "/app/person.jar"]
