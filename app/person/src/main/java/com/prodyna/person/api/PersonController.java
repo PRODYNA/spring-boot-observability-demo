@@ -15,7 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/persons")
 public class PersonController {
 
   private final PersonRepository personRepository;

@@ -16,7 +16,7 @@ spring:
 
 otel:
   sdk:
-    disabled: false
+    disabled: true
   exporter:
     otlp:
       protocol: http/protobuf
@@ -28,3 +28,4 @@ management:
     web:
       exposure:
         include: "health,info,prometheus"
+
