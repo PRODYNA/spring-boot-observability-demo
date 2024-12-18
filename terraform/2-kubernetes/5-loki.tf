@@ -4,7 +4,6 @@ resource "kubernetes_namespace" "loki" {
   }
 }
 
-/*
 resource "helm_release" "loki" {
     chart      = "loki"
     repository = local.helm.repository.grafana
@@ -20,4 +19,3 @@ resource "helm_release" "loki" {
         helm_release.prometheus-operator-crds
     ]
 }
-*/
