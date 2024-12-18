@@ -1,6 +1,6 @@
-package com.prodyna.person_backend.core;
+package com.prodyna.person.core;
 
-import com.prodyna.person_backend.domain.Person;
+import com.prodyna.person.domain.Person;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

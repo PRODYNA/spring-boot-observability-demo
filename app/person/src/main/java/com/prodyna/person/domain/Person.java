@@ -1,4 +1,4 @@
-package com.prodyna.person_backend.domain;
+package com.prodyna.person.domain;
 
 import java.time.LocalDate;
 import java.util.UUID;

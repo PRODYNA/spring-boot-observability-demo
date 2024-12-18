@@ -1,4 +1,4 @@
-package com.prodyna.person_backend;
+package com.prodyna.person;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

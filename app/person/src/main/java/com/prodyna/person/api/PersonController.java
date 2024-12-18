@@ -1,9 +1,9 @@
-package com.prodyna.person_backend.api;
+package com.prodyna.person.api;
 
-import com.prodyna.person_backend.core.PersonEntity;
-import com.prodyna.person_backend.core.PersonMapper;
-import com.prodyna.person_backend.core.PersonRepository;
-import com.prodyna.person_backend.domain.Person;
+import com.prodyna.person.core.PersonEntity;
+import com.prodyna.person.core.PersonMapper;
+import com.prodyna.person.core.PersonRepository;
+import com.prodyna.person.domain.Person;
 import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.api.trace.Span;

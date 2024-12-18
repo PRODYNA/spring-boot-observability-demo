@@ -1,4 +1,4 @@
-package com.prodyna.person_backend.core;
+package com.prodyna.person.core;
 
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -9,8 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.prodyna</groupId>
-	<artifactId>person-backend</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>person</artifactId>
+	<version>VERSION</version>
 	<name>demo</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>

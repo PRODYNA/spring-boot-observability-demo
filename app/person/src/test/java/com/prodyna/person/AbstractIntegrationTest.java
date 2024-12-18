@@ -1,4 +1,4 @@
-package com.prodyna.person_backend;
+package com.prodyna.person;
 
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;

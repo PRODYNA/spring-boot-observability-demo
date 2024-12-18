@@ -1,11 +1,11 @@
-package com.prodyna.person_backend.api;
+package com.prodyna.person.api;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
-import com.prodyna.person_backend.AbstractIntegrationTest;
-import com.prodyna.person_backend.domain.Person;
+import com.prodyna.person.AbstractIntegrationTest;
+import com.prodyna.person.domain.Person;
 import io.restassured.http.ContentType;
 import java.time.LocalDate;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package com.prodyna.person_backend.core;
+package com.prodyna.person.core;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
