@@ -15,6 +15,7 @@ FROM eclipse-temurin:21-alpine
 ARG VERSION=1.0.0
 
 COPY --from=build /app/person/target/person-$VERSION.jar /app/person.jar
-COPY /src/main/resources/application.properties /app/application.properties
+#COPY /src/main/resources/application.properties /app/application.properties
 
+WORKDIR /app
 CMD ["java", "-jar", "/app/person.jar"]

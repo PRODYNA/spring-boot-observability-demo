@@ -103,18 +103,14 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
-# Additional volumes on the output Deployment definition.
-volumes: []
-# - name: foo
-#   secret:
-#     secretName: mysecret
-#     optional: false
+volumes:
+  - name: secret
+    secret:
+      secretName: person
 
-# Additional volumeMounts on the output Deployment definition.
-volumeMounts: []
-# - name: foo
-#   mountPath: "/etc/foo"
-#   readOnly: true
+volumeMounts:
+  - name: secret
+    mountPath: "/app/config"
 
 nodeSelector: {}
 
@@ -122,7 +118,7 @@ tolerations: []
 
 affinity: {}
 
-properties:
+config:
   spring:
     application:
       name: person
@@ -147,11 +143,6 @@ properties:
         protocol: http/protobuf
         endpoint: https://localhost:4317
         enabled: true
-
-secrets:
-  spring:
-    datasource:
-      password: password
 
 serviceMonitor:
   enabled: false

@@ -35,17 +35,17 @@ resource "helm_release" "person" {
   }
 
   set {
-    name = "properties.spring.datasource.url"
+    name = "config.spring.datasource.url"
     value = "jdbc:postgresql://${data.terraform_remote_state.azure.outputs.database.person.hostname}:5432/person"
   }
 
   set {
-    name = "properties.spring.datasource.username"
+    name = "config.spring.datasource.username"
     value = data.terraform_remote_state.azure.outputs.database.person.username
   }
 
   set {
-    name = "secrets.spring.datasource.password"
+    name = "config.spring.datasource.password"
     value = data.terraform_remote_state.azure.outputs.database.person.password
   }
 }

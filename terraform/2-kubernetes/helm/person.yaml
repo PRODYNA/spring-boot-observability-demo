@@ -18,7 +18,7 @@ image:
 serviceMonitor:
   enabled: true
 
-properties:
+config:
   otel:
     sdk:
       disabled: false
@@ -26,4 +26,12 @@ properties:
       otlp:
         protocol: grpc
         endpoint: http://opentelemetry-collector.observability:4317
+        enabled: true
+  logging:
+    structured:
+      format:
+        console: ecs
+  server:
+    tomcat:
+      accesslog:
         enabled: true
