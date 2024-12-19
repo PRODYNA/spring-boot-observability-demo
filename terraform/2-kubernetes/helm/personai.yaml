@@ -19,6 +19,9 @@ serviceMonitor:
   enabled: true
 
 config:
+  spring:
+    application:
+      name: personai
   otel:
     sdk:
       disabled: false
@@ -26,7 +29,6 @@ config:
       otlp:
         protocol: grpc
         endpoint: http://opentelemetry-collector.observability:4317
-        enabled: true
   logging:
     structured:
       format:

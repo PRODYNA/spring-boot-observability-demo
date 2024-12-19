@@ -20,12 +20,8 @@ otel:
     disabled: true
   exporter:
     otlp:
-      metrics:
-        endpoint: http://localhost:4317
-        protocol: grpc
-      traces:
-        endpoint: http://localhost:4317
-        protocol: grpc
+      endpoint: http://localhost:4317
+      protocol: grpc
 
 management:
   endpoints:

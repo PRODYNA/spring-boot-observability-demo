@@ -26,7 +26,6 @@ config:
       otlp:
         protocol: grpc
         endpoint: http://opentelemetry-collector.observability:4317
-        enabled: true
   logging:
     structured:
       format:
@@ -38,5 +37,5 @@ config:
       accesslog:
         enabled: true
         prefix: stdout
-#    servlet:
-#      context-path: /person
+    servlet:
+      context-path: /person
