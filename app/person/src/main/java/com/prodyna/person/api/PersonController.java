@@ -15,7 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/persons")
+@RequestMapping("/")
 public class PersonController {
 
   private final PersonRepository personRepository;
@@ -43,17 +43,42 @@ public class PersonController {
       entity.setId(UUID.randomUUID());
     }
     Person model = personMapper.toModel(personRepository.save(entity));
+
     Span currentSpan = Span.current();
     currentSpan.addEvent(
         "person.create",
         Attributes.of(AttributeKey.stringKey("person.id"), entity.getId().toString()));
     currentSpan.setAttribute("person.name", entity.getFirstName() + " " + entity.getLastName());
+
     return model;
   }
 
   @GetMapping
   public Page<Person> fetchAllPersons(
       @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-    return personRepository.findAll(PageRequest.of(page, size)).map(personMapper::toModel);
+    Page<Person> output =
+        personRepository.findAll(PageRequest.of(page, size)).map(personMapper::toModel);
+
+    // in 20% of the cases, throw a runtime exception
+    if (Math.random() < 0.2) {
+      throw new RuntimeException("Random exception");
+    }
+
+    // in 20% of the cases, mark this span as error
+    if (Math.random() < 0.2) {
+      Span.current().recordException(new RuntimeException("Random exception"));
+      return null;
+    }
+
+    // in 20% of the cases, sleep for 1 second
+    if (Math.random() < 0.2) {
+      try {
+        Thread.sleep(1000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    }
+
+    return output;
   }
 }

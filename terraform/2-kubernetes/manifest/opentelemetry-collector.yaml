@@ -470,7 +470,11 @@ spec:
             - 'IsMatch(attributes["url.path"], "/ping")'
             - 'IsMatch(attributes["url.path"], "/metrics")'
             - 'IsMatch(attributes["url.path"], "/api/health")'
+            - 'IsMatch(attributes["http.url"], "/api/health")'
             - 'IsMatch(attributes["url.path"], "/grafana/metrics")'
+            - 'IsMatch(attributes["url.path"], "/actuator/health")'
+            - 'IsMatch(attributes["url.path"], "/actuator/prometheus")'
+            - 'IsMatch(attributes["code.function"], "getConnection")'
         logs:
           log_record:
             - 'IsMatch(body, "debug")'

@@ -5,7 +5,7 @@ ingress:
   hosts:
     - host: dummy
       paths:
-        - path: /person
+        - path: /personai
           pathType: ImplementationSpecific
   tls:
     - secretName: person-tls
@@ -38,5 +38,5 @@ config:
       accesslog:
         enabled: true
         prefix: stdout
-#    servlet:
-#      context-path: /person
+    servlet:
+      context-path: /personai

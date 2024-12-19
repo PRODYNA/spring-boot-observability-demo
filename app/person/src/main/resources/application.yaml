@@ -14,17 +14,27 @@ spring:
           format_sql: true
           dialect: org.hibernate.dialect.PostgreSQLDialect
 
+
 otel:
   sdk:
     disabled: true
   exporter:
     otlp:
-      protocol: http/protobuf
-      endpoint: https://localhost:4317
-      enabled: false
+      metrics:
+        endpoint: http://localhost:4317
+        protocol: grpc
+      traces:
+        endpoint: http://localhost:4317
+        protocol: grpc
 
 management:
   endpoints:
     web:
       exposure:
         include: "health,info,prometheus"
+  server:
+    port: 9080
+
+server:
+  servlet:
+    context-path: /
