@@ -16,7 +16,7 @@ spring:
 
 otel:
   sdk:
-    disabled: false
+    disabled: true
   exporter:
     otlp:
       protocol: http/protobuf

@@ -24,6 +24,6 @@ properties:
       disabled: false
     exporter:
       otlp:
-        protocol: http/protobuf
+        protocol: grpc
         endpoint: http://opentelemetry-collector.observability:4317
         enabled: true
