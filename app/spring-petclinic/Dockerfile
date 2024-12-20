@@ -1,6 +1,6 @@
 FROM maven:3.9.9-eclipse-temurin-21-alpine AS build
 
-ARG VERSION=1.0.0
+ARG VERSION=3.0.0
 
 
 COPY / /app/petclinic
