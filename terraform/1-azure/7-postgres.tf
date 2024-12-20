@@ -22,8 +22,8 @@ resource "azurerm_postgresql_flexible_server" "app" {
 }
 
 # Database person
-resource "azurerm_postgresql_flexible_server_database" "person" {
-  name                = "person"
+resource "azurerm_postgresql_flexible_server_database" "persondb" {
+  name                = "persondb"
   server_id = azurerm_postgresql_flexible_server.app.id
 }
 

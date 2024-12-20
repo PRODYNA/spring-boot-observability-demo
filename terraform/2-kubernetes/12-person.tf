@@ -36,7 +36,7 @@ resource "helm_release" "person" {
 
   set {
     name = "config.spring.datasource.url"
-    value = "jdbc:postgresql://${data.terraform_remote_state.azure.outputs.database.person.hostname}:5432/person"
+    value = "jdbc:postgresql://${data.terraform_remote_state.azure.outputs.database.person.hostname}:5432/persondb"
   }
 
   set {
@@ -82,7 +82,7 @@ resource "helm_release" "personai" {
 
   set {
     name = "config.spring.datasource.url"
-    value = "jdbc:postgresql://${data.terraform_remote_state.azure.outputs.database.person.hostname}:5432/person"
+    value = "jdbc:postgresql://${data.terraform_remote_state.azure.outputs.database.person.hostname}:5432/persondb"
   }
 
   set {
