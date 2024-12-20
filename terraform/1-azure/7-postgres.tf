@@ -27,6 +27,12 @@ resource "azurerm_postgresql_flexible_server_database" "persondb" {
   server_id = azurerm_postgresql_flexible_server.app.id
 }
 
+# Database petclinic
+resource "azurerm_postgresql_flexible_server_database" "petclinicdb" {
+  name                = "petclinicdb"
+  server_id = azurerm_postgresql_flexible_server.app.id
+}
+
 locals {
   database = {
     person = {

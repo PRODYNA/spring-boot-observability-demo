@@ -50,6 +50,7 @@ resource "helm_release" "person" {
   }
 }
 
+/*
 resource "helm_release" "personai" {
   chart     = "../../chart/person"
   name      = "personai"
@@ -95,3 +96,4 @@ resource "helm_release" "personai" {
     value = data.terraform_remote_state.azure.outputs.database.person.password
   }
 }
+*/
