@@ -12,9 +12,9 @@ RUN mvn install -DskipTests
 
 FROM eclipse-temurin:21-alpine
 
-ARG VERSION=1.0.0
+ARG VERSION=3.0.0
 
-COPY --from=build /app/petclinic/target/petclinic-$VERSION.jar /app/petclinic.jar
+COPY --from=build /app/petclinic/target/spring-petclinic-htmx-$VERSION.jar /app/petclinic.jar
 #COPY /src/main/resources/application.properties /app/application.properties
 
 WORKDIR /app

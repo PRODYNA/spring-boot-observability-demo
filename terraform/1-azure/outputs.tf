@@ -24,12 +24,20 @@ output "subscription_id" {
 #   value = data.azurerm_resource_group.main.name
 # }
 
-output "fq_image_name" {
-  value = "${azurerm_container_registry.main.login_server}/${local.image.repository}"
+output "person_image_name" {
+  value = "${azurerm_container_registry.main.login_server}/${local.image.person.repository}"
 }
 
-output "image_tag" {
-  value = local.image.tag
+output "person_image_tag" {
+  value = local.image.person.tag
+}
+
+output "spring_petclinic_image_name" {
+  value = "${azurerm_container_registry.main.login_server}/${local.image.spring_petclinic.repository}"
+}
+
+output "spring_petclinic_image_tag" {
+  value = local.image.spring_petclinic.tag
 }
 
 output "project_name" {

@@ -5,7 +5,14 @@ locals {
   }
   resource_prefix = local.tags.project
   image = {
-    repository = "person"
-    tag        = "1.0.0"
+    person = {
+      repository = "person"
+      tag        = "1.0.0"
+  },
+    spring_petclinic = {
+      repository = "spring-petclinic"
+      tag        = "3.0.0"
+    }
   }
 }
+

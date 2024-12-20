@@ -16,12 +16,12 @@ resource "helm_release" "person" {
 
   set {
     name = "image.repository"
-    value = data.terraform_remote_state.azure.outputs.fq_image_name
+    value = data.terraform_remote_state.azure.outputs.person_image_name
   }
 
   set {
     name = "image.tag"
-    value = data.terraform_remote_state.azure.outputs.image_tag
+    value = data.terraform_remote_state.azure.outputs.person_image_tag
   }
 
   set {

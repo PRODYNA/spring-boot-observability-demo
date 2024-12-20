@@ -1,0 +1,41 @@
+fullnameOverride: petclinic
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-traefik
+  hosts:
+    - host: dummy
+      paths:
+        - path: /petclinic
+          pathType: ImplementationSpecific
+  tls:
+    - secretName: petclinic-tls
+      hosts:
+        - dummy
+
+image:
+  pullPolicy: Always
+
+serviceMonitor:
+  enabled: true
+
+config:
+#  logging:
+#    structured:
+#      format:
+#        console: ecs
+#    pattern:
+#      level: trace_id=%mdc{trace_id} span_id=%mdc{span_id} trace_flags=%mdc{trace_flags} %5p
+  spring:
+    profiles:
+      active: postgres
+  server:
+    tomcat:
+      accesslog:
+        enabled: true
+        prefix: stdout
+    servlet:
+      context-path: /petclinic
+  management:
+    server:
+      port: 9080

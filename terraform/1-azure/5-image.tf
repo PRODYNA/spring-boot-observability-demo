@@ -1,22 +1,12 @@
-# ## Wait two minutes after creation of container registry
-# resource "time_sleep" "wait_120_seconds" {
-#   create_duration = "120s"
-#
-#   depends_on = [
-#     azurerm_container_registry.main
-#   ]
-#
-#   triggers = {
-#     acr = azurerm_container_registry.main.id
-#   }
-# }
-#
 # Build container image insize of ACR
-resource "terraform_data" "build_sample" {
+resource "terraform_data" "build_person" {
   provisioner "local-exec" {
-    command = "az acr build -r ${azurerm_container_registry.main.name} --build-arg VERSION=${local.image.tag} -t ${local.image.repository}:${local.image.tag} ../../app/person -g ${azurerm_resource_group.main.name}"
+    command = "az acr build -r ${azurerm_container_registry.main.name} --build-arg VERSION=${local.image.person.tag} -t ${local.image.person.repository}:${local.image.person.tag} ../../app/person -g ${azurerm_resource_group.main.name}"
   }
-#  depends_on = [
-#    time_sleep.wait_120_seconds
-#  ]
+}
+
+resource "terraform_data" "build_spring_petclinic" {
+  provisioner "local-exec" {
+    command = "az acr build -r ${azurerm_container_registry.main.name} --build-arg VERSION=${local.image.spring_petclinic.tag} -t ${local.image.spring_petclinic.repository}:${local.image.spring_petclinic.tag} ../../app/spring-petclinic -g ${azurerm_resource_group.main.name}"
+  }
 }
