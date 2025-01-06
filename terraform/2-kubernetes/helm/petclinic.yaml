@@ -42,4 +42,7 @@ config:
 
 instrumentation:
   enabled: true
-  endpoint: http://opentelemetry-collector.observability:4318/
+  endpoint: http://opentelemetry-collector.observability:4317/
+
+podAnnotations:
+  test: "true"
