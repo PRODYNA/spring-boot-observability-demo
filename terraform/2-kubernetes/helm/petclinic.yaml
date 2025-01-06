@@ -17,7 +17,7 @@ image:
   pullPolicy: Always
 
 serviceMonitor:
-  enabled: true
+  enabled: false
 
 config:
 #  logging:

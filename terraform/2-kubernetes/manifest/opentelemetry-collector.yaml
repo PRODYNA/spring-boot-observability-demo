@@ -475,6 +475,7 @@ spec:
             - 'IsMatch(attributes["url.path"], "/actuator/health")'
             - 'IsMatch(attributes["http.route"], "/actuator/health")'
             - 'IsMatch(attributes["url.path"], "/actuator/prometheus")'
+            - 'IsMatch(attributes["http.route"], "/actuator/prometheus")'
             - 'IsMatch(attributes["code.function"], "getConnection")'
         logs:
           log_record:
