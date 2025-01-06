@@ -10,6 +10,6 @@ spec:
     - tracecontext
     - baggage
   sampler:
-    type: parentbased_traceidratio
+    type: always_on
     argument: "1"
 {{- end }}
