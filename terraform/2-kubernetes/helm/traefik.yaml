@@ -62,6 +62,7 @@ metrics:
       insecure: true
 
 tracing:
+  sampleRate: 1.0
   otlp:
     enabled: true
     grpc:
