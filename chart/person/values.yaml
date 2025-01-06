@@ -112,6 +112,7 @@ affinity: {}
 serviceMonitor:
   enabled: false
 
+# Spring specific config
 config:
   spring:
     application:
@@ -137,3 +138,7 @@ config:
         endpoint: https://localhost:4317
         enabled: true
 
+# Helm chart feature for enabling OpenTelemetry TargetAllocator auto-instrumentation
+instrumentation:
+  enabled: false
+  endpoint: http://localhost:4318

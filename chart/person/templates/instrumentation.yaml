@@ -1,0 +1,15 @@
+{{- if .Values.instrumentation.enabled -}}
+apiVersion: opentelemetry.io/v1alpha1
+kind: Instrumentation
+metadata:
+  name: {{ include "person.fullname" . }}
+spec:
+  exporter:
+    endpoint: {{ .Values.instrumentation.endpoint }}
+  propagators:
+    - tracecontext
+    - baggage
+  sampler:
+    type: parentbased_traceidratio
+    argument: "1"
+{{- end }}

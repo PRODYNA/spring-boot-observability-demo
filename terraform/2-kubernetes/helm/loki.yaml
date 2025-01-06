@@ -20,6 +20,9 @@ loki:
 
 minio:
   enabled: true
+  persistence:
+    size: 100Gi
+
 
 deploymentMode: SingleBinary
 

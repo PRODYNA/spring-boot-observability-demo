@@ -39,3 +39,7 @@ config:
   management:
     server:
       port: 9080
+
+instrumentation:
+  enabled: true
+  endpoint: http://opentelemetry-collector.observability:4318/
