@@ -18,7 +18,7 @@ variable "cloudflare_zone_id" {
 
 variable "cloudflare_api_token" {
   type    = string
-  default = "wApUkUdY6vlXcFCW_G3tKXbkgl1dYKEjh_1jaV5j" # should be in a secret
+  default = "HKTcyFJsyghM1BOfKOAHs8b2_H5HvE3-KSFrVEF7" # should be in a secret
 }
 
 variable "aks" {
@@ -54,8 +54,8 @@ variable "aks" {
     }
 
     version = {
-      control_plane = "1.30.5"
-      node_pool     = "1.30.5"
+      control_plane = "1.30.6"
+      node_pool     = "1.30.6"
     }
   }
 }

@@ -2,7 +2,7 @@ serviceMonitor:
   enabled: true
 ingress:
   enabled: true
-  #ingressClassName: traefik
+  ingressClassName: traefik
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-traefik
   pathType: Prefix
