@@ -42,7 +42,7 @@ variable "aks" {
   })
   default = {
     default_node_pool = {
-      vm_size   = "Standard_B2s_v2"
+      vm_size   = "Standard_B4s_v2"
       min_count = 1
       max_count = 4
     }

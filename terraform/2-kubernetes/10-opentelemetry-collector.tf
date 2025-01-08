@@ -184,9 +184,13 @@ resource "kubernetes_manifest" "coredns-service" {
 }
 
 # Add ServiceMonitor for CoreDNS
+/*
 resource "kubernetes_manifest" "coredns-servicemonitor" {
   manifest = yamldecode(file("manifest/coredns-servicemonitor.yaml"))
+  depends_on = [
+  helm_release.prometheus-operator-crds]
 }
+ */
 
 resource "kubernetes_persistent_volume_claim_v1" "geoip" {
   metadata {
