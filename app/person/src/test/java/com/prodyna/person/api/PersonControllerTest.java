@@ -22,7 +22,7 @@ public class PersonControllerTest extends AbstractIntegrationTest {
         .contentType(ContentType.JSON)
         .body(person)
         .when()
-        .post("/person")
+        .post("/")
         .then()
         .log()
         .body()

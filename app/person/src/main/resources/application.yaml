@@ -13,7 +13,10 @@ spring:
         hibernate:
           format_sql: true
           dialect: org.hibernate.dialect.PostgreSQLDialect
-
+logging:
+  structured:
+    format:
+      console: ecs
 
 otel:
   sdk:
