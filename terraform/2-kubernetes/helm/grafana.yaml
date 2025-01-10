@@ -84,12 +84,20 @@ datasources:
           httpHeaderName1: 'X-Scope-OrgID'
           manageAlerts: false
           derivedFields:
-            - name: "trace_id"
+            - name: "trace_id_json"
               matcherRegex: '"[tT]race[_-]?[iI][dD]":"(\w+)"'
               url: "$${__value.raw}"
               datasourceUid: tempo
-            - name: "span_id"
+            - name: "trace_id_text"
+              matcherRegex: '[tT]race[_-]?[iI][dD]=(\w+)'
+              url: "$${__value.raw}"
+              datasourceUid: tempo
+            - name: "span_id_json"
               matcherRegex: '"[sS]pan[_-]?[iI][dD]":"(\w+)"'
+              url: "{span:id=\"$${__value.raw}\"}"
+              datasourceUid: tempo
+            - name: "span_id_text"
+              matcherRegex: '[sS]pan[_-]?[iI][dD]=(\w+)'
               url: "{span:id=\"$${__value.raw}\"}"
               datasourceUid: tempo
 

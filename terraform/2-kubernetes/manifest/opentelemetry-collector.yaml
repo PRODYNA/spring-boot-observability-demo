@@ -479,8 +479,10 @@ spec:
             - 'IsMatch(attributes["code.function"], "getConnection")'
         logs:
           log_record:
-            - 'IsMatch(body, "debug")'
-            - 'IsMatch(body, "DEBUG")'
+            - 'IsMatch(body, "trace")'
+            - 'IsMatch(body, "TRACE")'
+            #- 'IsMatch(body, "debug")'
+            #- 'IsMatch(body, "DEBUG")'
 
       geoip:
         context: record

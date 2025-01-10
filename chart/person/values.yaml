@@ -116,7 +116,7 @@ serviceMonitor:
 config:
   spring:
     application:
-      name: person
+      name: test
     datasource:
       url: jdbc:postgresql://localhost:5432/demo
       username: postgres

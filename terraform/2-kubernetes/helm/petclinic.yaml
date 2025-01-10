@@ -20,13 +20,20 @@ serviceMonitor:
   enabled: false
 
 config:
-#  logging:
-#    structured:
-#      format:
-#        console: ecs
-#    pattern:
-#      level: trace_id=%mdc{trace_id} span_id=%mdc{span_id} trace_flags=%mdc{trace_flags} %5p
+  logging:
+    level:
+      root: INFO
+      org:
+        springframework:
+          web: DEBUG
+    structured:
+      format:
+        console: ecs
+    pattern:
+      level: trace_id=%mdc{trace_id} span_id=%mdc{span_id} trace_flags=%mdc{trace_flags} %5p
   spring:
+    application:
+      name: petclinic
     profiles:
       active: postgres
   server:
@@ -39,6 +46,14 @@ config:
   management:
     server:
       port: 9080
+  otel:
+    exporter:
+      logging:
+        enabled: true
+    instrumentation:
+      logback-appender:
+        experimental:
+          capture-mdc-attributes: "*"
 
 instrumentation:
   enabled: true
