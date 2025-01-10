@@ -15,12 +15,4 @@ public class PersonApplication {
     app.setBannerMode(Banner.Mode.OFF);
     app.run(args);
   }
-
-  //  @Bean
-  //  public FilterRegistrationBean<TraceFilter> loggingFilter() {
-  //    FilterRegistrationBean<TraceFilter> registrationBean = new FilterRegistrationBean<>();
-  //    registrationBean.setFilter(new TraceFilter());
-  //    registrationBean.addUrlPatterns("/*");
-  //    return registrationBean;
-  //  }
 }
