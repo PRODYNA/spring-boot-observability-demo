@@ -7,7 +7,6 @@ import com.prodyna.person.domain.Person;
 import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.api.trace.Span;
-import io.opentelemetry.instrumentation.annotations.WithSpan;
 import java.util.Objects;
 import java.util.UUID;
 import org.slf4j.Logger;
@@ -42,7 +41,6 @@ public class PersonController {
   }
 
   @PostMapping
-  @WithSpan
   public Person createPerson(@RequestBody Person person) {
     LOGGER.info("Creating person: {}", person);
     PersonEntity entity = personMapper.toEntity(person);
