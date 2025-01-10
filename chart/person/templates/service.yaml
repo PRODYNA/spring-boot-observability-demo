@@ -11,5 +11,9 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+    - port: {{ .Values.serviceMonitor.portNumber}}
+      targetPort: actuator
+      protocol: TCP
+      name: actuator
   selector:
     {{- include "person.selectorLabels" . | nindent 4 }}

@@ -10,6 +10,6 @@ spec:
     matchLabels:
       {{- include "person.selectorLabels" . | nindent 6 }}
   endpoints:
-  - port: http
+  - port: {{ .Values.serviceMonitor.portName }}
     path: /actuator/prometheus
 {{- end }}

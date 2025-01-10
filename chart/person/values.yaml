@@ -111,6 +111,8 @@ affinity: {}
 
 serviceMonitor:
   enabled: false
+  portName: http
+  portNumber: 8080
 
 # Spring specific config
 config:

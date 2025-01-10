@@ -17,6 +17,8 @@ image:
 
 serviceMonitor:
   enabled: true
+  portName: actuator
+  portNumber: 9080
 
 config:
   otel:

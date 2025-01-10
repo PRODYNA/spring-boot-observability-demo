@@ -593,7 +593,7 @@ spec:
           exporters: [otlphttp/mimir]
         logs:
           receivers: [otlp, k8s_cluster, k8sobjects, filelog, k8s_events, exceptions]
-          processors: [batch, memory_limiter, k8sattributes, resourcedetection, resource, attributes, attributes/logs, filter]
+          processors: [batch, memory_limiter, k8sattributes, resourcedetection, resource, attributes, attributes/logs] # filter
           exporters: [otlphttp/loki] # , signaltometrics
 
       telemetry:
