@@ -16,7 +16,7 @@ image:
   pullPolicy: Always
 
 serviceMonitor:
-  enabled: true
+  enabled: false
   portName: actuator
   portNumber: 9080
 

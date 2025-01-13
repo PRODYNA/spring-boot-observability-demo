@@ -3,7 +3,7 @@ resource "helm_release" "opentelemetry-operator" {
   repository = local.helm.repository.open-telemetry
   name       = "opentelemetry-operator"
   namespace  = kubernetes_namespace.observability.metadata[0].name
-  version    = "0.77.0"
+  version    = "0.78.0"
 
   values = [
     file("helm/opentelemetry-operator.yaml"),

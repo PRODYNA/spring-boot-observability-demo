@@ -144,3 +144,7 @@ config:
 instrumentation:
   enabled: false
   endpoint: http://localhost:4318
+
+env:
+  - name: OTEL_INSTRUMENTATION_MICROMETER_ENABLED
+    value: "true"
