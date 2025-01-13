@@ -28,12 +28,6 @@ config:
       otlp:
         protocol: grpc
         endpoint: http://opentelemetry-collector.observability:4317
-  logging:
-    structured:
-      format:
-        console: ecs
-    pattern:
-      level: trace_id=%mdc{trace_id} span_id=%mdc{span_id} trace_flags=%mdc{trace_flags} %5p
   server:
     tomcat:
       accesslog:
