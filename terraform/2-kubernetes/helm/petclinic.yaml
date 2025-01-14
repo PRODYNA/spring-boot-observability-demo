@@ -22,6 +22,11 @@ serviceMonitor:
   portNumber: 9080
 
 config:
+  spring:
+    application:
+      name: petclinic
+    profiles:
+      active: postgres
   logging:
     level:
       root: INFO
@@ -33,11 +38,6 @@ config:
         console: ecs
     pattern:
       level: trace_id=%mdc{trace_id} span_id=%mdc{span_id} trace_flags=%mdc{trace_flags} %5p
-  spring:
-    application:
-      name: petclinic
-    profiles:
-      active: postgres
   server:
     tomcat:
       accesslog:
@@ -50,12 +50,15 @@ config:
     exporter:
       logging:
         enabled: true
+    metrics:
+      exporter: otlp
     instrumentation:
+      micrometer:
+        enabled: true
       logback-appender:
         experimental:
           capture-mdc-attributes: "*"
 
 instrumentation:
   enabled: true
-  endpoint: http://opentelemetry-collector.observability:4317/
-
+  endpoint: http://opentelemetry-collector.observability:4318/

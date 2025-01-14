@@ -18,7 +18,7 @@ spec:
         value: "otlp"
       - name: OTEL_INSTRUMENTATION_MICROMETER_ENABLED
         value: "true"
-      - name: "OTEL_INSTRUMENTATION_MICROMETER_DEFAULT_BINDERS_ENABLED"
+      - name: OTEL_INSTRUMENTATION_MICROMETER_DEFAULT_BINDERS_ENABLED
         value: "true"
       - name: OTEL_INSTRUMENTATION_MICROMETER_LOGGING_ENABLED
         value: "true"

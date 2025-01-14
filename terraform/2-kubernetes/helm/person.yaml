@@ -20,16 +20,42 @@ serviceMonitor:
   portName: actuator
   portNumber: 9080
 
+#    - name: OTEL_INSTRUMENTATION_MICROMETER_ENABLED
+#      value: "true"
+#    - name: OTEL_INSTRUMENTATION_MICROMETER_DEFAULT_BINDERS_ENABLED
+#      value: "true"
+#    - name: OTEL_INSTRUMENTATION_MICROMETER_LOGGING_ENABLED
 config:
+  spring:
+    application:
+      name: person
   otel:
+    service:
+      name: person
     sdk:
       disabled: false
+    instrumentation:
+      micrometer:
+        enabled: true
+      default:
+        binders:
+          enabled: true
+      logging:
+        enabled: true
+    metrics:
+      exporter: otlp
     exporter:
       otlp:
-        protocol: grpc
         endpoint: http://opentelemetry-collector.observability:4317
+        insecure: true
+        protocol: grpc
   server:
     tomcat:
       accesslog:
         enabled: true
         prefix: stdout
+  management:
+    otlp:
+      metrics:
+        export:
+          url: http://opentelemetry-collector.observability:4318/v1/metrics
