@@ -21,10 +21,15 @@ logging:
 otel:
   sdk:
     disabled: true
+
   exporter:
     otlp:
       endpoint: http://localhost:4317
       protocol: grpc
+      insecure: true
+  instrumentation:
+    micrometer:
+      enabled: true
 
 management:
   endpoints:
