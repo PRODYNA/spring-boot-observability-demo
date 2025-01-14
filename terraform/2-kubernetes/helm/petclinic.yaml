@@ -6,7 +6,7 @@ ingress:
   hosts:
     - host: dummy
       paths:
-        - path: /petclinic
+        - path: /
           pathType: ImplementationSpecific
   tls:
     - secretName: petclinic-tls
@@ -43,8 +43,6 @@ config:
       accesslog:
         enabled: true
         prefix: stdout
-    servlet:
-      context-path: /petclinic
   management:
     server:
       port: 9080

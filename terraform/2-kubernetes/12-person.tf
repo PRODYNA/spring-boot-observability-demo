@@ -26,12 +26,12 @@ resource "helm_release" "person" {
 
   set {
     name  = "ingress.hosts[0].host"
-    value = data.terraform_remote_state.azure.outputs.app_name
+    value = data.terraform_remote_state.azure.outputs.person_hostname
   }
 
   set {
     name  = "ingress.tls[0].hosts[0]"
-    value = data.terraform_remote_state.azure.outputs.app_name
+    value = data.terraform_remote_state.azure.outputs.person_hostname
   }
 
   set {

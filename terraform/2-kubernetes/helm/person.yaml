@@ -5,7 +5,7 @@ ingress:
   hosts:
     - host: dummy
       paths:
-        - path: /person
+        - path: /
           pathType: ImplementationSpecific
   tls:
     - secretName: person-tls
@@ -16,7 +16,7 @@ image:
   pullPolicy: Always
 
 serviceMonitor:
-  enabled: false
+  enabled: true
   portName: actuator
   portNumber: 9080
 
@@ -33,5 +33,3 @@ config:
       accesslog:
         enabled: true
         prefix: stdout
-    servlet:
-      context-path: /person

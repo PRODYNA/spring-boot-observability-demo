@@ -48,8 +48,16 @@ output "app_name" {
   value = "${var.project_name}.prodyna.wtf"
 }
 
-output "grafana_name" {
-  value = "grafana.${var.project_name}.prodyna.wtf"
+output "grafana_hostname" {
+  value = cloudflare_record.grafana-prodyna-wtf.hostname
+}
+
+output "person_hostname" {
+  value = cloudflare_record.person-prodyna-wtf.hostname
+}
+
+output "petclinic_hostname" {
+  value = cloudflare_record.petclinic-prodyna-wtf.hostname
 }
 
 output "database" {
