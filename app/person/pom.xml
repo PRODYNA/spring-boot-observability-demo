@@ -28,7 +28,7 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
-		<opentelemetry-.version>1.32.0-alpha</opentelemetry-.version>
+		<opentelemetry-.version>2.6.0-alpha</opentelemetry-.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -82,7 +82,7 @@
 		<dependency>
 			<groupId>io.opentelemetry.instrumentation</groupId>
 			<artifactId>opentelemetry-micrometer-1.5</artifactId>
-			<version>${opentelemetry-.version}</version>
+			<version>2.6.0-alpha</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mapstruct</groupId>
