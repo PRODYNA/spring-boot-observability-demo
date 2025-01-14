@@ -46,6 +46,18 @@ config:
   management:
     server:
       port: 9080
+    metrics:
+      export:
+        prometheus:
+          enabled: true
+    endpoints:
+      web:
+        exposure:
+          include: "*"
+    prometheus:
+      metrics:
+        export:
+          enabled: true
   otel:
     exporter:
       logging:
@@ -54,7 +66,7 @@ config:
       exporter: otlp
     instrumentation:
       micrometer:
-        enabled: true
+        enabled: false
       logback-appender:
         experimental:
           capture-mdc-attributes: "*"
@@ -62,3 +74,7 @@ config:
 instrumentation:
   enabled: true
   endpoint: http://opentelemetry-collector.observability:4318/
+
+env:
+  - name: OTEL_INSTRUMENTATION_MICROMETER_ENABLED
+    value: "true"

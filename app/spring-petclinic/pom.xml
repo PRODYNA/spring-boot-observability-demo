@@ -140,6 +140,13 @@
       <version>${htmx-spring-boot-thymeleaf.version}</version>
     </dependency>
 
+    <!-- Added by me -->
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-registry-prometheus</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
