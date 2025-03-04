@@ -1,6 +1,9 @@
 resource "kubernetes_namespace" "person" {
   metadata {
     name = "person"
+    annotations = {
+      "telemetry.tenant" = "tenant-person"
+    }
   }
 }
 

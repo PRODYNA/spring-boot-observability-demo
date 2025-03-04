@@ -386,6 +386,7 @@ spec:
             - k8s.job.name
             - k8s.node.name
             - k8s.namespace.name
+            - k8s.namespace.annotations
             - k8s.pod.start_time
             - k8s.replicaset.name
             - k8s.replicaset.uid
@@ -505,15 +506,61 @@ spec:
         headers:
           X-Scope-OrgID: "1"
 
+      otelhttp/loki-petclinic:
+        endpoint: http://loki-gateway.loki/otlp
+        tls:
+          insecure: true
+        headers:
+          X-Scope-OrgID: "petclinic"
+
+      otelhttp/loki-person:
+        endpoint: http://loki-gateway.loki/otlp
+        tls:
+          insecure: true
+        headers:
+          X-Scope-OrgID: "person"
+
       otlphttp/mimir:
         endpoint: http://mimir-nginx.mimir/otlp
         tls:
           insecure: true
+        headers:
+          X-Scope-OrgID: "1"
+
+      otlphttp/mimir-petclinic:
+        endpoint: http://mimir-nginx.mimir/otlp
+        tls:
+          insecure: true
+        headers:
+          X-Scope-OrgID: "petclinic"
+
+      otlphttp/mimir-person:
+        endpoint: http://mimir-nginx.mimir/otlp
+        tls:
+          insecure: true
+        headers:
+          X-Scope-OrgID: "person"
 
       otlp/tempo:
         endpoint: tempo-distributor.tempo:4317
         tls:
           insecure: true
+        headers:
+          X-Scope-OrgID: "1"
+
+      otlp/tempo-petclinic:
+        endpoint: tempo-distributor.tempo:4317
+        tls:
+          insecure: true
+        headers:
+          X-Scope-OrgID: "petclinic"
+
+      otlp/tempo-person:
+        endpoint: tempo-distributor.tempo:4317
+        tls:
+          insecure: true
+        headers:
+          X-Scope-OrgID: "person"
 
     connectors:
       spanmetrics:
