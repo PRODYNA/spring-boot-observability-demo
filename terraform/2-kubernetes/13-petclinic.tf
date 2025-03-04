@@ -2,7 +2,7 @@ resource "kubernetes_namespace" "petclinic" {
   metadata {
     name = "petclinic"
     annotations = {
-      "telemetry.tenant" = "tenant-petclinic"
+      "telemetry.tenant" = "petclinic"
     }
   }
 }
