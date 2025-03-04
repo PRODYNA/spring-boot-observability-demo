@@ -3,7 +3,7 @@ resource "helm_release" "kube-state-metrics" {
   name       = "kube-state-metrics"
   chart      = "kube-state-metrics"
   repository = local.helm.repository.prometheus-community
-  version    = "5.25.1"
+  version    = "5.30.0"
 
   depends_on = [
     helm_release.prometheus-operator-crds

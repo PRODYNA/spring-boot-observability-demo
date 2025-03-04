@@ -9,7 +9,7 @@ resource "helm_release" "tempo" {
   repository = local.helm.repository.grafana
   name       = "tempo"
   namespace  = kubernetes_namespace.tempo.metadata[0].name
-  version    = "1.16.0"
+  version    = "1.18.2"
 
   values = [
     file("helm/tempo-distributed.yaml"),
