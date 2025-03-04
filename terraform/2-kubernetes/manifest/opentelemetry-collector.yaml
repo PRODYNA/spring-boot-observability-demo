@@ -422,6 +422,12 @@ spec:
             key: env
             value: ${env:STAGE}
 
+      resource/default_tenant:
+        attributes:
+          - key: telemetry.tenant2
+            action: upsert
+            value: default
+
       attributes:
         actions:
           - key: env
@@ -616,15 +622,15 @@ spec:
       pipelines:
         traces:
           receivers: [otlp]
-          processors: [batch, memory_limiter, k8sattributes, resourcedetection, resource, attributes, attributes/copy-client-address, filter, geoip, attributes/delete-source-address ]
+          processors: [batch, memory_limiter, k8sattributes, resourcedetection, resource, resource/default_tenant, attributes, attributes/copy-client-address, filter, geoip, attributes/delete-source-address ]
           exporters: [otlp/tempo, exceptions] # servicegraph, signaltometrics, spanmetrics
         metrics:
           receivers: [otlp, otlp/internal_metrics, prometheus, hostmetrics, kubeletstats, exceptions] # spanmetrics, servicegraph, signaltometrics
-          processors: [batch, memory_limiter, k8sattributes, resourcedetection, attributes/metrics]
+          processors: [batch, memory_limiter, k8sattributes, resource/default_tenant, resourcedetection, attributes/metrics]
           exporters: [otlphttp/mimir]
         logs:
           receivers: [otlp, k8s_cluster, k8sobjects, filelog, k8s_events, exceptions]
-          processors: [batch, memory_limiter, k8sattributes, resourcedetection, resource, attributes, attributes/logs] # filter
+          processors: [batch, memory_limiter, k8sattributes, resourcedetection, resource, resource/default_tenant, attributes, attributes/logs] # filter
           exporters: [otlphttp/loki] # , signaltometrics
 
       telemetry:

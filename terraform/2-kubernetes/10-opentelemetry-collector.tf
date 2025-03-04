@@ -71,7 +71,7 @@ resource "kubernetes_cluster_role" "opentelemetry-collector" {
 
   rule {
     api_groups = ["monitoring.coreos.com"]
-    resources  = ["podmonitors", "servicemonitors"]
+    resources  = ["podmonitors", "servicemonitors","probes","scrapeconfigs"]
     verbs      = ["create", "delete", "get", "list", "watch", "update", "patch"]
   }
 
