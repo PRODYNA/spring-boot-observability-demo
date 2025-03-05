@@ -157,5 +157,5 @@ spec:
                 interval: 10000
                 exporter:
                   otlp:
-                    protocol: grpc/protobuf
+                    protocol: grpc
                     endpoint: localhost:14317

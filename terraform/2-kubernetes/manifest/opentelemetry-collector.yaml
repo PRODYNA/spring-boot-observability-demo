@@ -346,9 +346,9 @@ spec:
         spike_limit_percentage: 15
 
       batch:
-        send_batch_max_size: 1000
-        send_batch_size: 100
-        timeout: 10s
+        timeout: 5s   # Reduce if too high
+        send_batch_size: 1024  # Ensure it's reasonable
+        send_batch_max_size: 2048
 
       k8sattributes:
         auth_type: serviceAccount
@@ -514,6 +514,8 @@ spec:
         endpoint: http://mimir-nginx.mimir/otlp
         tls:
           insecure: true
+        retry_on_failure:
+          enabled: false
         headers:
           X-Scope-OrgID: "1"
 
@@ -640,5 +642,5 @@ spec:
                 interval: 10000
                 exporter:
                   otlp:
-                    protocol: grpc/protobuf
+                    protocol: grpc
                     endpoint: localhost:14317

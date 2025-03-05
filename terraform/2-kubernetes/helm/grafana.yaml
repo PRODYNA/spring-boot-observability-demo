@@ -41,6 +41,8 @@ datasources:
         url: http://mimir-nginx.mimir/prometheus
         access: proxy
         jsonData:
+          httpHeaderName1: "X-Scope-OrgID"
+          httpHeaderValue1: "1"
           manageAlerts: true
           alertmanagerUid: alertmanager
           prometheusType: Mimir
@@ -82,6 +84,7 @@ datasources:
               field: "trace_id"
         jsonData:
           httpHeaderName1: 'X-Scope-OrgID'
+          httpHeaderValue1: '1'
           manageAlerts: false
           derivedFields:
             - name: "trace_id_json"
@@ -108,6 +111,8 @@ datasources:
         url: http://tempo-query-frontend.tempo:3100
         access: proxy
         jsonData:
+          httpHeaderName1: 'X-Scope-OrgID'
+          httpHeaderValue1: '1'
           tracesToLogsV2:
             datasourceUid: 'loki'
             spanStartTimeShift: '-1m'
