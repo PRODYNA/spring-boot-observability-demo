@@ -2,3 +2,4 @@ minio:
   enabled: true
   persistence:
     size: 100Gi
+

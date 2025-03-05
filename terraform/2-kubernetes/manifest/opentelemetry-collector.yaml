@@ -493,22 +493,22 @@ spec:
         endpoint: http://loki-gateway.loki/otlp
         tls:
           insecure: true
-        headers:
-          X-Scope-OrgID: "1"
+#        headers:
+#          X-Scope-OrgID: "1"
 
-      otlphttp/loki-petclinic:
-        endpoint: http://loki-gateway.loki/otlp
-        tls:
-          insecure: true
-        headers:
-          X-Scope-OrgID: "petclinic"
+#      otlphttp/loki-petclinic:
+#        endpoint: http://loki-gateway.loki/otlp
+#        tls:
+#          insecure: true
+#        headers:
+#          X-Scope-OrgID: "petclinic"
 
-      otlphttp/loki-person:
-        endpoint: http://loki-gateway.loki/otlp
-        tls:
-          insecure: true
-        headers:
-          X-Scope-OrgID: "person"
+#      otlphttp/loki-person:
+#        endpoint: http://loki-gateway.loki/otlp
+#        tls:
+#          insecure: true
+#        headers:
+#          X-Scope-OrgID: "person"
 
       otlphttp/mimir:
         endpoint: http://mimir-nginx.mimir/otlp
@@ -516,43 +516,43 @@ spec:
           insecure: true
         retry_on_failure:
           enabled: false
-        headers:
-          X-Scope-OrgID: "1"
+#        headers:
+#          X-Scope-OrgID: "1"
 
-      otlphttp/mimir-petclinic:
-        endpoint: http://mimir-nginx.mimir/otlp
-        tls:
-          insecure: true
-        headers:
-          X-Scope-OrgID: "petclinic"
+ #     otlphttp/mimir-petclinic:
+ #       endpoint: http://mimir-nginx.mimir/otlp
+ #       tls:
+ #         insecure: true
+ #       headers:
+ #         X-Scope-OrgID: "petclinic"
 
-      otlphttp/mimir-person:
-        endpoint: http://mimir-nginx.mimir/otlp
-        tls:
-          insecure: true
-        headers:
-          X-Scope-OrgID: "person"
+ #     otlphttp/mimir-person:
+ #       endpoint: http://mimir-nginx.mimir/otlp
+ #       tls:
+ #         insecure: true
+ #       headers:
+ #         X-Scope-OrgID: "person"
 
       otlp/tempo:
         endpoint: tempo-distributor.tempo:4317
         tls:
           insecure: true
-        headers:
-          X-Scope-OrgID: "1"
+#        headers:
+#          X-Scope-OrgID: "1"
 
-      otlp/tempo-petclinic:
-        endpoint: tempo-distributor.tempo:4317
-        tls:
-          insecure: true
-        headers:
-          X-Scope-OrgID: "petclinic"
+#      otlp/tempo-petclinic:
+#        endpoint: tempo-distributor.tempo:4317
+#        tls:
+#          insecure: true
+#        headers:
+#          X-Scope-OrgID: "petclinic"
 
-      otlp/tempo-person:
-        endpoint: tempo-distributor.tempo:4317
-        tls:
-          insecure: true
-        headers:
-          X-Scope-OrgID: "person"
+#      otlp/tempo-person:
+#        endpoint: tempo-distributor.tempo:4317
+#        tls:
+#          insecure: true
+#        headers:
+#          X-Scope-OrgID: "person"
 
     connectors:
       spanmetrics:
