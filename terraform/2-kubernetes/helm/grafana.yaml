@@ -40,9 +40,10 @@ datasources:
         type: prometheus
         url: http://mimir-nginx.mimir/prometheus
         access: proxy
+        orgId: 1
         jsonData:
           httpHeaderName1: "X-Scope-OrgID"
-          httpHeaderValue1: "1"
+          httpHeaderValue1: "1|default|person|petclinic"
           manageAlerts: true
           alertmanagerUid: alertmanager
           prometheusType: Mimir
@@ -50,13 +51,14 @@ datasources:
             - name: trace_id
               datasourceUid: tempo
         secureJsonData:
-          httpHeaderValue1: "1"
+          httpHeaderValue1: "1|default|person|petclinic"
 
       - name: Mimir (default)
         uid: prometheus_default
         type: prometheus
         url: http://mimir-nginx.mimir/prometheus
         access: proxy
+        orgId: 1
         jsonData:
           httpHeaderName1: "X-Scope-OrgID"
           manageAlerts: true
@@ -72,6 +74,7 @@ datasources:
         uid: prometheus_person
         type: prometheus
         url: http://mimir-nginx.mimir/prometheus
+        orgId: 1
         access: proxy
         jsonData:
           httpHeaderName1: "X-Scope-OrgID"
@@ -89,6 +92,7 @@ datasources:
         uid: prometheus_petclinic
         type: prometheus
         url: http://mimir-nginx.mimir/prometheus
+        orgId: 1
         access: proxy
         jsonData:
           httpHeaderName1: "X-Scope-OrgID"
@@ -152,7 +156,7 @@ datasources:
               url: "{span:id=\"$${__value.raw}\"}"
               datasourceUid: tempo
         secureJsonData:
-          httpHeaderValue1: "1"
+          httpHeaderValue1: "1|default|person|petclinic"
 
       - name: Loki (default)
         uid: loki_default

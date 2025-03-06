@@ -17,12 +17,13 @@ loki:
     volume_enabled: true
   ruler:
     enable_api: true
+  tenant_federation:
+    enabled: true  # Enable tenant federation
 
 minio:
   enabled: true
   persistence:
     size: 100Gi
-
 
 deploymentMode: SingleBinary
 
