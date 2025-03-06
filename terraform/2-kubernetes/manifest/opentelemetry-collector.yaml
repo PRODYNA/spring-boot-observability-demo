@@ -356,7 +356,7 @@ spec:
           annotations:
             - from: namespace
               key: telemetry.tenant
-              tag_name: telemetry.tenant
+              tag_name: telemetry_tenant
           metadata:
             - container.image.name
             - container.image.tag
@@ -422,17 +422,14 @@ spec:
             key: env
             value: ${env:STAGE}
 
-      resource/default_tenant:
-        attributes:
-          - key: telemetry.tenant2
-            action: upsert
-            value: default
-
       attributes:
         actions:
           - key: env
             action: upsert
             value: ${env:STAGE}
+          - key: telemetry_tenant
+            action: insert
+            value: "default"
 
       attributes/logs:
         actions:
@@ -448,6 +445,9 @@ spec:
           - action: insert
             key: cluster
             from_attribute: k8s.cluster.name
+          - key: telemetry_tenant
+            action: insert
+            value: "default"
 
       attributes/copy-client-address:
         actions:
@@ -475,6 +475,15 @@ spec:
             #- 'IsMatch(body, "debug")'
             #- 'IsMatch(body, "DEBUG")'
 
+      # filter only petclinic logs and traces, defined by telemetry_tenant=petclinic
+      filter/petclinic:
+        metrics:
+          metric:
+            - 'not IsMatch(resource.attributes["telemetry_tenant"], "petclinic")'
+        logs:
+          log_record:
+            - 'not IsMatch(resource.attributes["telemetry_tenant"], "petclinic")'
+
       geoip:
         context: record
         providers:
@@ -496,19 +505,19 @@ spec:
         headers:
           X-Scope-OrgID: "default"
 
-#      otlphttp/loki-petclinic:
-#        endpoint: http://loki-gateway.loki/otlp
-#        tls:
-#          insecure: true
-#        headers:
-#          X-Scope-OrgID: "petclinic"
+      otlphttp/loki_petclinic:
+        endpoint: http://loki-gateway.loki/otlp
+        tls:
+          insecure: true
+        headers:
+          X-Scope-OrgID: "petclinic"
 
-#      otlphttp/loki-person:
-#        endpoint: http://loki-gateway.loki/otlp
-#        tls:
-#          insecure: true
-#        headers:
-#          X-Scope-OrgID: "person"
+      otlphttp/loki_person:
+        endpoint: http://loki-gateway.loki/otlp
+        tls:
+          insecure: true
+        headers:
+          X-Scope-OrgID: "person"
 
       otlphttp/mimir:
         endpoint: http://mimir-nginx.mimir/otlp
@@ -519,19 +528,14 @@ spec:
         headers:
           X-Scope-OrgID: "default"
 
- #     otlphttp/mimir-petclinic:
- #       endpoint: http://mimir-nginx.mimir/otlp
- #       tls:
- #         insecure: true
- #       headers:
- #         X-Scope-OrgID: "petclinic"
-
- #     otlphttp/mimir-person:
- #       endpoint: http://mimir-nginx.mimir/otlp
- #       tls:
- #         insecure: true
- #       headers:
- #         X-Scope-OrgID: "person"
+      otlphttp/mimir_petclinic:
+        endpoint: http://mimir-nginx.mimir/otlp
+        tls:
+          insecure: true
+        retry_on_failure:
+          enabled: false
+        headers:
+          X-Scope-OrgID: "petclinic"
 
       otlp/tempo:
         endpoint: tempo-distributor.tempo:4317
@@ -539,20 +543,6 @@ spec:
           insecure: true
 #        headers:
 #          X-Scope-OrgID: "1"
-
-#      otlp/tempo-petclinic:
-#        endpoint: tempo-distributor.tempo:4317
-#        tls:
-#          insecure: true
-#        headers:
-#          X-Scope-OrgID: "petclinic"
-
-#      otlp/tempo-person:
-#        endpoint: tempo-distributor.tempo:4317
-#        tls:
-#          insecure: true
-#        headers:
-#          X-Scope-OrgID: "person"
 
     connectors:
       spanmetrics:
@@ -624,16 +614,25 @@ spec:
       pipelines:
         traces:
           receivers: [otlp]
-          processors: [batch, memory_limiter, k8sattributes, resourcedetection, resource, resource/default_tenant, attributes, attributes/copy-client-address, filter, geoip, attributes/delete-source-address ]
+          processors: [batch, memory_limiter, k8sattributes, resourcedetection, resource, attributes, attributes/copy-client-address, filter, geoip, attributes/delete-source-address ]
           exporters: [otlp/tempo, exceptions] # servicegraph, signaltometrics, spanmetrics
         metrics:
           receivers: [otlp, otlp/internal_metrics, prometheus, hostmetrics, kubeletstats, exceptions] # spanmetrics, servicegraph, signaltometrics
-          processors: [batch, memory_limiter, k8sattributes, resource/default_tenant, resourcedetection, attributes/metrics]
+          processors: [batch, memory_limiter, k8sattributes, resourcedetection, attributes/metrics]
           exporters: [otlphttp/mimir]
         logs:
           receivers: [otlp, k8s_cluster, k8sobjects, filelog, k8s_events, exceptions]
-          processors: [batch, memory_limiter, k8sattributes, resourcedetection, resource, resource/default_tenant, attributes, attributes/logs] # filter
+          processors: [batch, memory_limiter, k8sattributes, resourcedetection, resource, attributes, attributes/logs] # filter
           exporters: [otlphttp/loki] # , signaltometrics
+
+        logs/petclinic:
+          receivers: [otlp, k8s_cluster, k8sobjects, filelog, k8s_events, exceptions]
+          processors: [batch, memory_limiter, k8sattributes, resourcedetection, resource, attributes, attributes/logs, filter/petclinic] # filter
+          exporters: [otlphttp/loki_petclinic] # , signaltometrics
+        metrics/petclinic:
+          receivers: [otlp, otlp/internal_metrics, prometheus, hostmetrics, kubeletstats, exceptions] # spanmetrics, servicegraph, signaltometrics
+          processors: [batch, memory_limiter, k8sattributes, resourcedetection, attributes/metrics, filter/petclinic]
+          exporters: [otlphttp/mimir_petclinic]
 
       telemetry:
         metrics:
