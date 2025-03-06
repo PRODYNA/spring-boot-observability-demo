@@ -3,3 +3,6 @@ minio:
   persistence:
     size: 100Gi
 
+mimir:
+  structuredConfig:
+    multitenancy_enabled: true

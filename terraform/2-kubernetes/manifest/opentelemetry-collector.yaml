@@ -493,8 +493,8 @@ spec:
         endpoint: http://loki-gateway.loki/otlp
         tls:
           insecure: true
-#        headers:
-#          X-Scope-OrgID: "1"
+        headers:
+          X-Scope-OrgID: "default"
 
 #      otlphttp/loki-petclinic:
 #        endpoint: http://loki-gateway.loki/otlp
@@ -516,8 +516,8 @@ spec:
           insecure: true
         retry_on_failure:
           enabled: false
-#        headers:
-#          X-Scope-OrgID: "1"
+        headers:
+          X-Scope-OrgID: "default"
 
  #     otlphttp/mimir-petclinic:
  #       endpoint: http://mimir-nginx.mimir/otlp

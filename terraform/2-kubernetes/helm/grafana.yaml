@@ -42,13 +42,64 @@ datasources:
         access: proxy
         jsonData:
           httpHeaderName1: "X-Scope-OrgID"
-          httpHeaderValue1: "2"
+          httpHeaderValue1: "1"
           manageAlerts: true
           alertmanagerUid: alertmanager
           prometheusType: Mimir
           exemplarTraceIdDestinations:
             - name: trace_id
               datasourceUid: tempo
+        secureJsonData:
+          httpHeaderValue1: "1"
+
+      - name: Mimir (default)
+        uid: prometheus_default
+        type: prometheus
+        url: http://mimir-nginx.mimir/prometheus
+        access: proxy
+        jsonData:
+          httpHeaderName1: "X-Scope-OrgID"
+          manageAlerts: true
+          alertmanagerUid: alertmanager
+          prometheusType: Mimir
+          exemplarTraceIdDestinations:
+            - name: trace_id
+              datasourceUid: tempo
+        secureJsonData:
+          httpHeaderValue1: "default"
+
+      - name: Mimir (person)
+        uid: prometheus_person
+        type: prometheus
+        url: http://mimir-nginx.mimir/prometheus
+        access: proxy
+        jsonData:
+          httpHeaderName1: "X-Scope-OrgID"
+          httpHeaderValue1: "person"
+          manageAlerts: true
+          alertmanagerUid: alertmanager
+          prometheusType: Mimir
+          exemplarTraceIdDestinations:
+            - name: trace_id
+              datasourceUid: tempo
+        secureJsonData:
+          httpHeaderValue1: "person"
+
+      - name: Mimir (petclinic)
+        uid: prometheus_petclinic
+        type: prometheus
+        url: http://mimir-nginx.mimir/prometheus
+        access: proxy
+        jsonData:
+          httpHeaderName1: "X-Scope-OrgID"
+          manageAlerts: true
+          alertmanagerUid: alertmanager
+          prometheusType: Mimir
+          exemplarTraceIdDestinations:
+            - name: trace_id
+              datasourceUid: tempo
+        secureJsonData:
+          httpHeaderValue1: "petclinic"
 
       #    - name: Mimir Alertmanager
       #      uid: alertmanager
@@ -68,8 +119,6 @@ datasources:
         access: proxy
         editable: false
         orgId: 1
-        secureJsonData:
-          httpHeaderValue1: '1'
         correlations:
           - targetUID: tempo
             label: "Tempo traces"
@@ -84,7 +133,6 @@ datasources:
               field: "trace_id"
         jsonData:
           httpHeaderName1: 'X-Scope-OrgID'
-          httpHeaderValue1: '1'
           manageAlerts: false
           derivedFields:
             - name: "trace_id_json"
@@ -103,6 +151,134 @@ datasources:
               matcherRegex: '[sS]pan[_-]?[iI][dD]=(\w+)'
               url: "{span:id=\"$${__value.raw}\"}"
               datasourceUid: tempo
+        secureJsonData:
+          httpHeaderValue1: "1"
+
+      - name: Loki (default)
+        uid: loki_default
+        type: loki
+        url: http://loki-gateway.loki
+        access: proxy
+        editable: true
+        orgId: 1
+        correlations:
+          - targetUID: tempo
+            label: "Tempo traces"
+            description: "Related traces stored in Tempo"
+          - targetUID: prometheus
+            label: "Logs to metrics"
+            description: "Related metrics stored in Mimir"
+            config:
+              type: query
+              target:
+                expr: "{ job=\"$${__value.job\" }"
+              field: "trace_id"
+        jsonData:
+          httpHeaderName1: 'X-Scope-OrgID'
+          manageAlerts: false
+          derivedFields:
+            - name: "trace_id_json"
+              matcherRegex: '"[tT]race[_-]?[iI][dD]":"(\w+)"'
+              url: "$${__value.raw}"
+              datasourceUid: tempo
+            - name: "trace_id_text"
+              matcherRegex: '[tT]race[_-]?[iI][dD]=(\w+)'
+              url: "$${__value.raw}"
+              datasourceUid: tempo
+            - name: "span_id_json"
+              matcherRegex: '"[sS]pan[_-]?[iI][dD]":"(\w+)"'
+              url: "{span:id=\"$${__value.raw}\"}"
+              datasourceUid: tempo
+            - name: "span_id_text"
+              matcherRegex: '[sS]pan[_-]?[iI][dD]=(\w+)'
+              url: "{span:id=\"$${__value.raw}\"}"
+              datasourceUid: tempo
+        secureJsonData:
+          httpHeaderValue1: "default"
+
+      - name: Loki (person)
+        uid: loki_person
+        type: loki
+        url: http://loki-gateway.loki
+        access: proxy
+        editable: true
+        orgId: 1
+        correlations:
+          - targetUID: tempo
+            label: "Tempo traces"
+            description: "Related traces stored in Tempo"
+          - targetUID: prometheus
+            label: "Logs to metrics"
+            description: "Related metrics stored in Mimir"
+            config:
+              type: query
+              target:
+                expr: "{ job=\"$${__value.job\" }"
+              field: "trace_id"
+        jsonData:
+          httpHeaderName1: 'X-Scope-OrgID'
+          manageAlerts: false
+          derivedFields:
+            - name: "trace_id_json"
+              matcherRegex: '"[tT]race[_-]?[iI][dD]":"(\w+)"'
+              url: "$${__value.raw}"
+              datasourceUid: tempo
+            - name: "trace_id_text"
+              matcherRegex: '[tT]race[_-]?[iI][dD]=(\w+)'
+              url: "$${__value.raw}"
+              datasourceUid: tempo
+            - name: "span_id_json"
+              matcherRegex: '"[sS]pan[_-]?[iI][dD]":"(\w+)"'
+              url: "{span:id=\"$${__value.raw}\"}"
+              datasourceUid: tempo
+            - name: "span_id_text"
+              matcherRegex: '[sS]pan[_-]?[iI][dD]=(\w+)'
+              url: "{span:id=\"$${__value.raw}\"}"
+              datasourceUid: tempo
+        secureJsonData:
+          httpHeaderValue1: "person"
+
+      - name: Loki (petclinic)
+        uid: loki_petclinic
+        type: loki
+        url: http://loki-gateway.loki
+        access: proxy
+        editable: true
+        orgId: 1
+        correlations:
+          - targetUID: tempo
+            label: "Tempo traces"
+            description: "Related traces stored in Tempo"
+          - targetUID: prometheus
+            label: "Logs to metrics"
+            description: "Related metrics stored in Mimir"
+            config:
+              type: query
+              target:
+                expr: "{ job=\"$${__value.job\" }"
+              field: "trace_id"
+        jsonData:
+          httpHeaderName1: 'X-Scope-OrgID'
+          manageAlerts: false
+          derivedFields:
+            - name: "trace_id_json"
+              matcherRegex: '"[tT]race[_-]?[iI][dD]":"(\w+)"'
+              url: "$${__value.raw}"
+              datasourceUid: tempo
+            - name: "trace_id_text"
+              matcherRegex: '[tT]race[_-]?[iI][dD]=(\w+)'
+              url: "$${__value.raw}"
+              datasourceUid: tempo
+            - name: "span_id_json"
+              matcherRegex: '"[sS]pan[_-]?[iI][dD]":"(\w+)"'
+              url: "{span:id=\"$${__value.raw}\"}"
+              datasourceUid: tempo
+            - name: "span_id_text"
+              matcherRegex: '[sS]pan[_-]?[iI][dD]=(\w+)'
+              url: "{span:id=\"$${__value.raw}\"}"
+              datasourceUid: tempo
+        secureJsonData:
+          httpHeaderValue1: "petclinic"
 
       - name: Tempo
         editable: true
