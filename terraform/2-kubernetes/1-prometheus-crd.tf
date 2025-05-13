@@ -11,5 +11,3 @@ data "kubernetes_namespace" "observability" {
 #   namespace  = kubernetes_namespace.observability.metadata[0].name
 #   version    = "18.0.1"
 # }
-
-

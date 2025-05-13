@@ -21,9 +21,11 @@ terraform {
 
 # setting up the connection to the AKS cluster
 provider "kubernetes" {
+  config_path = "~/.kube/config"
 }
 
 provider "helm" {
   kubernetes {
+    config_path = "~/.kube/config"
   }
 }
