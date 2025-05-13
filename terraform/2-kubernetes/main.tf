@@ -4,10 +4,6 @@
 
 terraform {
   required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "4.14.0"
-    }
     kubernetes = {
       source  = "hashicorp/kubernetes"
       version = "2.35.0"
@@ -31,9 +27,3 @@ provider "helm" {
   kubernetes {
   }
 }
-
-##################
-## DATA SOURCES ##
-##################
-
-data "azurerm_client_config" "current" {}
