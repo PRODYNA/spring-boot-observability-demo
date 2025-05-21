@@ -3,7 +3,7 @@ resource "helm_release" "grafana" {
   repository = local.helm.repository.grafana
   name       = "grafana"
   namespace  = kubernetes_namespace.observability.metadata[0].name
-  version    = "9.0.0"
+  version    = "9.0.1"
 
   values = [
     file("helm/grafana.yaml"),
