@@ -10,7 +10,7 @@ resource "helm_release" "traefik" {
   chart            = "traefik"
   name             = "traefik"
   namespace        = kubernetes_namespace.traefik.metadata[0].name
-  version          = "34.4.1"
+  version          = "35.3.0"
   force_update     = false
   create_namespace = false
 

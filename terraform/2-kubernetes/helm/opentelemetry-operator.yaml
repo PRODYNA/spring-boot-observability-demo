@@ -1,6 +1,10 @@
 manager:
+  serviceMonitor:
+    enabled: false
+  prometheusRule:
+    enabled: true
   collectorImage:
-    repository: otel/opentelemetry-collector-contrib
+    repository: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib
 #    tag: 0.116.1
   autoInstrumentationImage:
     java:

@@ -3,10 +3,21 @@ tempo:
     enabled: true
     size: 100Gi
 
-global_overrides:
-  metrics_generator_processors:
-    - service-graphs
-    - span-metrics
+#global_overrides:
+#  metrics_generator_processors:
+#    - service-graphs
+#    - span-metrics
+
+overrides:
+  defaults:
+    global:
+      max_bytes_per_trace: 50000000
+      # max_search_bytes_per_trace: 50000000
+    metrics_generator:
+      processors:
+        - service-graphs
+        - span-metrics
+        - local-blocks
 
 metricsGenerator:
   enabled: true

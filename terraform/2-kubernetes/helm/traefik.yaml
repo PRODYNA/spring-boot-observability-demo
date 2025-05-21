@@ -146,8 +146,3 @@ affinity:
 
 gateway:
   namespacePolicy: All
-
-podDisruptionBudget:  # @schema additionalProperties: false
-  enabled: true
-  minAvailable:    1
-

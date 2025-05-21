@@ -9,7 +9,7 @@ resource "helm_release" "mimir" {
   repository = local.helm.repository.grafana
   name       = "mimir"
   namespace  = kubernetes_namespace.mimir.metadata[0].name
-  version    = "5.6.0"
+  version    = "5.6.1"
 
   values = [
     file("helm/mimir.yaml"),

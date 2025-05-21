@@ -10,7 +10,7 @@ resource "helm_release" "cert_manager" {
   chart            = "cert-manager"
   name             = "cert-manager"
   namespace        = kubernetes_namespace.cert-manager.metadata[0].name
-  version          = "1.17.1"
+  version          = "1.17.2"
   create_namespace = false
   force_update     = true
 
@@ -26,7 +26,7 @@ resource "helm_release" "cert_manager" {
 resource "helm_release" "clusterissuer-traefik" {
   repository       = local.helm.repository.snowplow-devops
   chart            = "cert-manager-issuer"
-  version          = "0.1.0"
+  version          = "0.2.0"
   name             = "letsencrypt-traefik"
   namespace        = kubernetes_namespace.cert-manager.metadata[0].name
   create_namespace = false

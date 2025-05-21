@@ -3,7 +3,7 @@ resource "helm_release" "prometheus-node-exporter" {
   name       = "prometheus-node-exporter"
   chart      = "prometheus-node-exporter"
   repository = local.helm.repository.prometheus-community
-  version    = "4.39.0"
+  version    = "4.46.0"
   depends_on = [
     helm_release.prometheus-operator-crds
   ]
