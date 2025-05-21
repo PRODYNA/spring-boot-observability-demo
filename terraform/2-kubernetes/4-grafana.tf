@@ -2,7 +2,7 @@ resource "helm_release" "grafana" {
   chart      = "grafana"
   repository = local.helm.repository.grafana
   name       = "grafana"
-  namespace  = data.kubernetes_namespace.observability.metadata[0].name
+  namespace  = kubernetes_namespace.observability.metadata[0].name
   version    = "8.10.1"
 
   values = [
@@ -17,7 +17,7 @@ resource "helm_release" "grafana" {
 resource "kubernetes_config_map_v1" "grafana-dashboard-worldmap" {
   metadata {
     name      = "grafana-dashboard-worldmap"
-    namespace = data.kubernetes_namespace.observability.metadata[0].name
+    namespace = kubernetes_namespace.observability.metadata[0].name
     labels = {
       "grafana_dashboard" = "1"
     }

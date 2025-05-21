@@ -38,7 +38,7 @@ datasources:
       - name: Mimir
         uid: prometheus
         type: prometheus
-        url: http://mimir-nginx.mimir/prometheus
+        url: http://mimir-nginx.observability-mimir/prometheus
         access: proxy
         orgId: 1
         jsonData:
@@ -56,7 +56,7 @@ datasources:
       - name: Mimir (default)
         uid: prometheus_default
         type: prometheus
-        url: http://mimir-nginx.mimir/prometheus
+        url: http://mimir-nginx.observability-mimir/prometheus
         access: proxy
         orgId: 1
         jsonData:
@@ -73,7 +73,7 @@ datasources:
       - name: Mimir (person)
         uid: prometheus_person
         type: prometheus
-        url: http://mimir-nginx.mimir/prometheus
+        url: http://mimir-nginx.observability-mimir/prometheus
         orgId: 1
         access: proxy
         jsonData:
@@ -91,7 +91,7 @@ datasources:
       - name: Mimir (petclinic)
         uid: prometheus_petclinic
         type: prometheus
-        url: http://mimir-nginx.mimir/prometheus
+        url: http://mimir-nginx.observability-mimir/prometheus
         orgId: 1
         access: proxy
         jsonData:
@@ -119,7 +119,7 @@ datasources:
       - name: Loki
         uid: loki
         type: loki
-        url: http://loki-gateway.loki
+        url: http://loki-gateway.observability-loki
         access: proxy
         editable: false
         orgId: 1
@@ -161,7 +161,7 @@ datasources:
       - name: Loki (default)
         uid: loki_default
         type: loki
-        url: http://loki-gateway.loki
+        url: http://loki-gateway.observability-loki
         access: proxy
         editable: true
         orgId: 1

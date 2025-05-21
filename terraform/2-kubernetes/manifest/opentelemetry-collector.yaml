@@ -499,28 +499,28 @@ spec:
       debug: {}
 
       otlphttp/loki:
-        endpoint: http://loki-gateway.loki/otlp
+        endpoint: http://loki-gateway.observability-loki/otlp
         tls:
           insecure: true
         headers:
           X-Scope-OrgID: "default"
 
       otlphttp/loki_petclinic:
-        endpoint: http://loki-gateway.loki/otlp
+        endpoint: http://loki-gateway.observability-loki/otlp
         tls:
           insecure: true
         headers:
           X-Scope-OrgID: "petclinic"
 
       otlphttp/loki_person:
-        endpoint: http://loki-gateway.loki/otlp
+        endpoint: http://loki-gateway.observability-loki/otlp
         tls:
           insecure: true
         headers:
           X-Scope-OrgID: "person"
 
       otlphttp/mimir:
-        endpoint: http://mimir-nginx.mimir/otlp
+        endpoint: http://mimir-nginx.observability-mimir/otlp
         tls:
           insecure: true
         retry_on_failure:
@@ -529,7 +529,7 @@ spec:
           X-Scope-OrgID: "default"
 
       otlphttp/mimir_petclinic:
-        endpoint: http://mimir-nginx.mimir/otlp
+        endpoint: http://mimir-nginx.observability-mimir/otlp
         tls:
           insecure: true
         retry_on_failure:
@@ -538,7 +538,7 @@ spec:
           X-Scope-OrgID: "petclinic"
 
       otlp/tempo:
-        endpoint: tempo-distributor.tempo:4317
+        endpoint: tempo-distributor.observability-tempo:4317
         tls:
           insecure: true
 #        headers:
