@@ -18,7 +18,7 @@ variable "cloudflare_zone_id" {
 
 variable "cloudflare_api_token" {
   type    = string
-  default = "HKTcyFJsyghM1BOfKOAHs8b2_H5HvE3-KSFrVEF7" # should be in a secret
+  default = "tEPDh8f3LRqft9al_6ReJ_Zo0ENp7niGJM3YKEGm" # should be in a secret
 }
 
 variable "aks" {
