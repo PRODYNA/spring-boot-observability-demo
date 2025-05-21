@@ -203,7 +203,7 @@ datasources:
       - name: Loki (person)
         uid: loki_person
         type: loki
-        url: http://loki-gateway.loki
+        url: http://loki-gateway.observability-loki
         access: proxy
         editable: true
         orgId: 1
@@ -245,7 +245,7 @@ datasources:
       - name: Loki (petclinic)
         uid: loki_petclinic
         type: loki
-        url: http://loki-gateway.loki
+        url: http://loki-gateway.observability-loki
         access: proxy
         editable: true
         orgId: 1
@@ -288,7 +288,7 @@ datasources:
         editable: true
         type: tempo
         uid: tempo
-        url: http://tempo-query-frontend.tempo:3100
+        url: http://tempo-query-frontend.observability-tempo:3100
         access: proxy
         jsonData:
           httpHeaderName1: 'X-Scope-OrgID'

@@ -8,10 +8,19 @@ resource "helm_release" "grafana" {
   values = [
     file("helm/grafana.yaml"),
   ]
+  set {
+      name  = "ingress.hosts[0]"
+      value = data.terraform_remote_state.azure.outputs.grafana_hostname
+    }
 
-  #depends_on = [
-  #  helm_release.prometheus-operator-crds
-  #]
+  set {
+    name  = "ingress.tls[0].hosts[0]"
+    value = data.terraform_remote_state.azure.outputs.grafana_hostname
+  }
+
+  depends_on = [
+    helm_release.prometheus-operator-crds
+  ]
 }
 
 resource "kubernetes_config_map_v1" "grafana-dashboard-worldmap" {
