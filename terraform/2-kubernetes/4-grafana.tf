@@ -1,3 +1,11 @@
+resource "helm_release" "grafana-operator" {
+  chart      = "grafana-operator"
+  repository = local.helm.repository.grafana
+  name       = "grafana-operator"
+  namespace  = kubernetes_namespace.observability.metadata[0].name
+  version    = "5.18.0"
+}
+
 resource "helm_release" "grafana" {
   chart      = "grafana"
   repository = local.helm.repository.grafana

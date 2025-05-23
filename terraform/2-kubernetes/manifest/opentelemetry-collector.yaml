@@ -8,6 +8,9 @@ spec:
     privileged: true
     runAsUser: 0
   mode: daemonset
+  args:
+    "config": "/etc/otel-collector-config.yaml"
+    "feature-gates": "service.profilesSupport"
   targetAllocator:
     enabled: true
     allocationStrategy: per-node
@@ -543,6 +546,12 @@ spec:
           insecure: true
 #        headers:
 #          X-Scope-OrgID: "1"
+      otlphttp/pyroscope:
+        endpoint: pyroscope.observability-pyroscope:4040
+        tls:
+          insecure: true
+        #headers:
+        #  X-Scope-OrgID: "1"
 
     connectors:
       spanmetrics:
@@ -633,6 +642,10 @@ spec:
           receivers: [otlp, otlp/internal_metrics, prometheus, hostmetrics, kubeletstats, exceptions] # spanmetrics, servicegraph, signaltometrics
           processors: [batch, memory_limiter, k8sattributes, resourcedetection, attributes/metrics, filter/petclinic]
           exporters: [otlphttp/mimir_petclinic]
+        profiles:
+          receivers: [otlp] #, k8s_cluster, k8sobjects, filelog, k8s_events, exceptions]
+          #processors: [batch, memory_limiter] # filter
+          exporters: [otlphttp/pyroscope]
 
       telemetry:
         metrics:
@@ -643,3 +656,4 @@ spec:
                   otlp:
                     protocol: grpc
                     endpoint: localhost:14317
+                    insecure: true

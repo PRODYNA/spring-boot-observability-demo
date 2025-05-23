@@ -1,0 +1,6 @@
+# OTLP gRPC endpoint to send the collected metrics
+endpoint:
+  address: "pyroscope.observability-pyroscope:4040"
+  port: 4318
+kernelCollector:
+  enabled: true

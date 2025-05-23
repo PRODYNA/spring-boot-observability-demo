@@ -4,7 +4,7 @@ resource "kubernetes_cluster_role" "opentelemetry-collector" {
   }
   rule {
     api_groups = [""]
-    resources = ["configmaps", "persistentvolumeclaims", "persistentvolumes", "pods", "serviceaccounts",
+    resources = ["configmaps", "persistentvolumeclaims", "persistentvolumes", "pods", "pods/status", "serviceaccounts",
     "services", "endpoints", "resourcequotas", "replicationcontrollers", "replicationcontrollers/status"]
     verbs = ["create", "delete", "get", "list", "watch", "update"]
   }
@@ -12,7 +12,7 @@ resource "kubernetes_cluster_role" "opentelemetry-collector" {
   rule {
     api_groups = [""]
     resources  = ["events"]
-    verbs      = ["create", "patch", "list", "watch"]
+    verbs      = ["get", "create", "patch", "list", "watch"]
   }
 
   rule {
@@ -23,7 +23,7 @@ resource "kubernetes_cluster_role" "opentelemetry-collector" {
 
   rule {
     api_groups = ["apps", "extensions"]
-    resources  = ["replicasets"]
+    resources  = ["replicasets", "daemonsets", "deployments"]
     verbs      = ["get", "list", "watch"]
   }
 
@@ -41,7 +41,7 @@ resource "kubernetes_cluster_role" "opentelemetry-collector" {
 
   rule {
     api_groups = [""]
-    resources  = ["nodes", "nodes/metrics", "nodes/stats", "nodes/proxy", "namespaces", "namespaces/status"]
+    resources  = ["nodes", "nodes/metrics", "nodes/stats", "nodes/proxy", "nodes/spec", "namespaces", "namespaces/status"]
     verbs      = ["get", "list", "watch"]
   }
 
@@ -246,4 +246,16 @@ resource "helm_release" "opentelemetry-collector-singly" {
       }
     })
   ]
+}
+
+resource "helm_release" "opentelemetry-ebpf" {
+    namespace  = kubernetes_namespace.observability.metadata[0].name
+    name       = "opentelemetry-ebpf"
+    chart      = "opentelemetry-ebpf"
+    version    = "0.1.6"
+    repository = local.helm.repository.open-telemetry
+
+    values = [
+      file("helm/opentelemetry-ebpf.yaml"),
+    ]
 }
