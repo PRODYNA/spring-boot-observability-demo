@@ -1,4 +1,49 @@
-loki:
+rbac:
+  # -- If pspEnabled true, a PodSecurityPolicy is created for K8s that use psp.
+  pspEnabled: false
+  # -- For OpenShift set pspEnabled to 'false' and sccEnabled to 'true' to use the SecurityContextConstraints.
+  sccEnabled: true
+rollout_operator:
+  podSecurityContext:
+    fsGroup: null
+    runAsGroup: null
+    runAsUser: null
+enterpriseGateway:  
+  tokengen:
+    podSecurityContext:
+      fsGroup: null
+      runAsGroup: null
+      runAsUser: null
+adminApi:
+  podSecurityContext:
+    fsGroup: null
+    runAsGroup: null
+    runAsUser: null
+    runAsNonRoot: true
+enterpriseGateway:
+  podSecurityContext:
+    fsGroup: null
+    runAsGroup: null
+    runAsUser: null
+    runAsNonRoot: true
+memcached:
+  podSecurityContext:
+    fsGroup: null
+    runAsGroup: null
+    runAsUser: null
+    runAsNonRoot: true
+gateway:
+  podSecurityContext:
+    fsGroup: null
+    runAsGroup: null
+    runAsUser: null
+    runAsNonRoot: true
+loki:   
+  podSecurityContext:
+    fsGroup: null
+    runAsGroup: null
+    runAsUser: null
+    runAsNonRoot: true
   commonConfig:
     replication_factor: 1
   schemaConfig:
@@ -21,7 +66,7 @@ loki:
     enabled: true  # Enable tenant federation
 
 minio:
-  enabled: true
+  enabled: false
   persistence:
     size: 100Gi
 

@@ -19,6 +19,7 @@ overrides:
         - span-metrics
         - local-blocks
 
+
 metricsGenerator:
   enabled: true
   config:
@@ -73,3 +74,9 @@ traces:
     grpc:
       # Enable gRPC port for OTLP on port 4317
       enabled: true
+
+securityContext:
+  fsGroup: null
+  runAsGroup: null
+  runAsUser: null
+  runAsNonRoot: true

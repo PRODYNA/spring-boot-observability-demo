@@ -1,3 +1,8 @@
+securityContext:
+  runAsNonRoot: true
+  runAsUser: null
+  runAsGroup: null
+  fsGroup: null
 serviceMonitor:
   enabled: true
 ingress:

@@ -1,5 +1,5 @@
 minio:
-  enabled: true
+  enabled: false
   persistence:
     size: 100Gi
 
@@ -8,3 +8,39 @@ mimir:
     multitenancy_enabled: true
     tenant_federation:
       enabled: true
+
+rbac:
+  type: scc
+  podSecurityContext:
+    fsGroup: null
+    runAsGroup: null
+    runAsUser: null
+    runAsNonRoot: true
+
+rollout_operator:
+  podSecurityContext:
+    fsGroup: null
+    runAsGroup: null
+    runAsUser: null
+
+grafanaAgent:
+  podSecurityContext:
+    fsGroup: null
+    runAsGroup: null
+    runAsUser: null
+    runAsNonRoot: true
+
+grafana-agent-operator:
+  podSecurityContext:
+    fsGroup: null
+    runAsGroup: null
+    runAsUser: null
+    runAsNonRoot: true
+
+provisioner:
+  podSecurityContext:
+    fsGroup: null
+    runAsGroup: null
+    runAsUser: null
+    runAsNonRoot: true
+    
