@@ -288,7 +288,7 @@ datasources:
         editable: true
         type: tempo
         uid: tempo
-        url: http://tempo-query-frontend.observability-tempo:3100
+        url: http://tempo-query-frontend.observability-tempo:3200
         access: proxy
         jsonData:
           httpHeaderName1: 'X-Scope-OrgID'
