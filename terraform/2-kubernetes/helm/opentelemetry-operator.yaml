@@ -9,5 +9,5 @@ manager:
   autoInstrumentationImage:
     java:
       repository: otel/autoinstrumentation-java
-      tag: 2.11.0
+      tag: 2.17.0
 #  featureGates: "service.profilesSupport"
