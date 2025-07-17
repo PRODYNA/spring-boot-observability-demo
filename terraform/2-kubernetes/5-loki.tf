@@ -9,7 +9,7 @@ resource "helm_release" "loki" {
     repository = local.helm.repository.grafana
     name       = "loki"
     namespace  = kubernetes_namespace.loki.metadata[0].name
-    version    = "6.29.0"
+    version    = "6.32.0"
 
     values = [
         file("helm/loki.yaml"),

@@ -9,7 +9,7 @@ resource "helm_release" "pyroscope" {
   repository = local.helm.repository.grafana
   name       = "pyroscope"
   namespace  = kubernetes_namespace_v1.pyroscope.metadata[0].name
-  version    = "1.13.4"
+  version    = "1.14.0"
 
   values = [
     file("helm/pyroscope.yaml"),

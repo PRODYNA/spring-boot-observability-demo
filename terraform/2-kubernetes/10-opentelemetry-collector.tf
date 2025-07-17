@@ -248,6 +248,7 @@ resource "helm_release" "opentelemetry-collector-singly" {
   ]
 }
 
+/*
 resource "helm_release" "opentelemetry-ebpf" {
     namespace  = kubernetes_namespace.observability.metadata[0].name
     name       = "opentelemetry-ebpf"
@@ -259,3 +260,4 @@ resource "helm_release" "opentelemetry-ebpf" {
       file("helm/opentelemetry-ebpf.yaml"),
     ]
 }
+*/
