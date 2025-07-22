@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,51 +26,38 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
-
 /**
  * @author Juergen Hoeller
  * @author Mark Fisher
  * @author Ken Krebs
  * @author Arjen Poutsma
- * @author Alexandre Grison
  */
 @Controller
 class VetController {
 
 	private final VetRepository vetRepository;
 
-	public VetController(VetRepository clinicService) {
-		this.vetRepository = clinicService;
+	public VetController(VetRepository vetRepository) {
+		this.vetRepository = vetRepository;
 	}
 
 	@GetMapping("/vets.html")
 	public String showVetList(@RequestParam(defaultValue = "1") int page, Model model) {
-		return handleVetList(page, model, "vets/vetList");
-	}
-
-	@HxRequest
-	@GetMapping("/vets.html")
-	public String htmxShowVetList(@RequestParam(defaultValue = "1") int page, Model model) {
-		return handleVetList(page, model, "fragments/vets :: list");
-	}
-
-	protected String handleVetList(int page, Model model, String view) {
 		// Here we are returning an object of type 'Vets' rather than a collection of Vet
 		// objects so it is simpler for Object-Xml mapping
 		Vets vets = new Vets();
 		Page<Vet> paginated = findPaginated(page);
 		vets.getVetList().addAll(paginated.toList());
-		return addPaginationModel(page, paginated, model, view);
+		return addPaginationModel(page, paginated, model);
 	}
 
-	private String addPaginationModel(int page, Page<Vet> paginated, Model model, String view) {
+	private String addPaginationModel(int page, Page<Vet> paginated, Model model) {
 		List<Vet> listVets = paginated.getContent();
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", paginated.getTotalPages());
 		model.addAttribute("totalItems", paginated.getTotalElements());
 		model.addAttribute("listVets", listVets);
-		return view;
+		return "vets/vetList";
 	}
 
 	private Page<Vet> findPaginated(int page) {

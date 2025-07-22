@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,9 @@
  */
 package org.springframework.samples.petclinic.owner;
 
+import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,14 +31,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
 import jakarta.validation.Valid;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * @author Juergen Hoeller
  * @author Ken Krebs
  * @author Arjen Poutsma
- * @author Alexandre Grison
+ * @author Wick Dynex
  */
 @Controller
 @RequestMapping("/owners/{ownerId}")
@@ -44,28 +46,40 @@ class PetController {
 
 	private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
 
-	private static final String FRAGMENTS_PETS_EDIT = "fragments/pets :: edit";
-
 	private final OwnerRepository owners;
 
-	public PetController(OwnerRepository owners) {
+	private final PetTypeRepository types;
+
+	public PetController(OwnerRepository owners, PetTypeRepository types) {
 		this.owners = owners;
+		this.types = types;
 	}
 
 	@ModelAttribute("types")
 	public Collection<PetType> populatePetTypes() {
-		return this.owners.findPetTypes();
+		return this.types.findPetTypes();
 	}
 
 	@ModelAttribute("owner")
 	public Owner findOwner(@PathVariable("ownerId") int ownerId) {
-		return this.owners.findById(ownerId);
+		Optional<Owner> optionalOwner = this.owners.findById(ownerId);
+		Owner owner = optionalOwner.orElseThrow(() -> new IllegalArgumentException(
+				"Owner not found with id: " + ownerId + ". Please ensure the ID is correct "));
+		return owner;
 	}
 
 	@ModelAttribute("pet")
 	public Pet findPet(@PathVariable("ownerId") int ownerId,
 			@PathVariable(name = "petId", required = false) Integer petId) {
-		return petId == null ? new Pet() : this.owners.findById(ownerId).getPet(petId);
+
+		if (petId == null) {
+			return new Pet();
+		}
+
+		Optional<Owner> optionalOwner = this.owners.findById(ownerId);
+		Owner owner = optionalOwner.orElseThrow(() -> new IllegalArgumentException(
+				"Owner not found with id: " + ownerId + ". Please ensure the ID is correct "));
+		return owner.getPet(petId);
 	}
 
 	@InitBinder("owner")
@@ -80,89 +94,83 @@ class PetController {
 
 	@GetMapping("/pets/new")
 	public String initCreationForm(Owner owner, ModelMap model) {
-		return handleInitCreationForm(owner, model, VIEWS_PETS_CREATE_OR_UPDATE_FORM);
-	}
-
-	@HxRequest
-	@GetMapping("/pets/new")
-	public String htmxInitCreationForm(Owner owner, ModelMap model) {
-		return handleInitCreationForm(owner, model, FRAGMENTS_PETS_EDIT);
-	}
-
-	protected String handleInitCreationForm(Owner owner, ModelMap model, String view) {
 		Pet pet = new Pet();
 		owner.addPet(pet);
-		model.put("pet", pet);
-		return view;
+		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 	}
 
 	@PostMapping("/pets/new")
-	public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result, ModelMap model) {
-		return handleProcessCreationForm(owner, pet, result, model, VIEWS_PETS_CREATE_OR_UPDATE_FORM);
-	}
+	public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result,
+			RedirectAttributes redirectAttributes) {
 
-	@HxRequest
-	@PostMapping("/pets/new")
-	public String htmxProcessCreationForm(Owner owner, @Valid Pet pet, BindingResult result, ModelMap model) {
-		return handleProcessCreationForm(owner, pet, result, model, FRAGMENTS_PETS_EDIT);
-	}
-
-	protected String handleProcessCreationForm(Owner owner, @Valid Pet pet, BindingResult result, ModelMap model,
-			String view) {
-		if (StringUtils.hasLength(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) != null) {
+		if (StringUtils.hasText(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) != null)
 			result.rejectValue("name", "duplicate", "already exists");
+
+		LocalDate currentDate = LocalDate.now();
+		if (pet.getBirthDate() != null && pet.getBirthDate().isAfter(currentDate)) {
+			result.rejectValue("birthDate", "typeMismatch.birthDate");
 		}
 
-		owner.addPet(pet);
 		if (result.hasErrors()) {
-			model.put("pet", pet);
-			return view;
-		}
-
-		this.owners.save(owner);
-		return "redirect:/owners/{ownerId}";
-	}
-
-	@GetMapping("/pets/{petId}/edit")
-	public String initUpdateForm(Owner owner, @PathVariable("petId") int petId, ModelMap model) {
-		return handleInitUpdateForm(owner, petId, model, VIEWS_PETS_CREATE_OR_UPDATE_FORM);
-	}
-
-	@HxRequest
-	@GetMapping("/pets/{petId}/edit")
-	public String htmxInitUpdateForm(@PathVariable("ownerId") int ownerId, Owner owner,
-			@PathVariable("petId") int petId, ModelMap model) {
-		return handleInitUpdateForm(owner, petId, model, FRAGMENTS_PETS_EDIT);
-	}
-
-	protected String handleInitUpdateForm(Owner owner, int petId, ModelMap model, String view) {
-		Pet pet = owner.getPet(petId);
-		model.put("owner", owner);
-		model.put("pet", pet);
-		return view;
-	}
-
-	@PostMapping("/pets/{petId}/edit")
-	public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner, ModelMap model) {
-		return handleProcessUpdateForm(pet, result, owner, model, VIEWS_PETS_CREATE_OR_UPDATE_FORM);
-	}
-
-	@HxRequest
-	@PostMapping("/pets/{petId}/edit")
-	public String htmxProcessUpdateForm(@Valid Pet pet, BindingResult result, Owner owner, ModelMap model) {
-		return handleProcessUpdateForm(pet, result, owner, model, FRAGMENTS_PETS_EDIT);
-	}
-
-	protected String handleProcessUpdateForm(@Valid Pet pet, BindingResult result, Owner owner, ModelMap model,
-			String view) {
-		if (result.hasErrors()) {
-			model.put("pet", pet);
-			return view;
+			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		}
 
 		owner.addPet(pet);
 		this.owners.save(owner);
+		redirectAttributes.addFlashAttribute("message", "New Pet has been Added");
 		return "redirect:/owners/{ownerId}";
+	}
+
+	@GetMapping("/pets/{petId}/edit")
+	public String initUpdateForm() {
+		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
+	}
+
+	@PostMapping("/pets/{petId}/edit")
+	public String processUpdateForm(Owner owner, @Valid Pet pet, BindingResult result,
+			RedirectAttributes redirectAttributes) {
+
+		String petName = pet.getName();
+
+		// checking if the pet name already exists for the owner
+		if (StringUtils.hasText(petName)) {
+			Pet existingPet = owner.getPet(petName, false);
+			if (existingPet != null && !existingPet.getId().equals(pet.getId())) {
+				result.rejectValue("name", "duplicate", "already exists");
+			}
+		}
+
+		LocalDate currentDate = LocalDate.now();
+		if (pet.getBirthDate() != null && pet.getBirthDate().isAfter(currentDate)) {
+			result.rejectValue("birthDate", "typeMismatch.birthDate");
+		}
+
+		if (result.hasErrors()) {
+			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
+		}
+
+		updatePetDetails(owner, pet);
+		redirectAttributes.addFlashAttribute("message", "Pet details has been edited");
+		return "redirect:/owners/{ownerId}";
+	}
+
+	/**
+	 * Updates the pet details if it exists or adds a new pet to the owner.
+	 * @param owner The owner of the pet
+	 * @param pet The pet with updated details
+	 */
+	private void updatePetDetails(Owner owner, Pet pet) {
+		Pet existingPet = owner.getPet(pet.getId());
+		if (existingPet != null) {
+			// Update existing pet's properties
+			existingPet.setName(pet.getName());
+			existingPet.setBirthDate(pet.getBirthDate());
+			existingPet.setType(pet.getType());
+		}
+		else {
+			owner.addPet(pet);
+		}
+		this.owners.save(owner);
 	}
 
 }

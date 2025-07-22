@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package org.springframework.samples.petclinic.owner;
 
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -26,8 +27,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
 import jakarta.validation.Valid;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * @author Juergen Hoeller
@@ -35,12 +36,10 @@ import jakarta.validation.Valid;
  * @author Arjen Poutsma
  * @author Michael Isvy
  * @author Dave Syer
- * @author Alexandre Grison
+ * @author Wick Dynex
  */
 @Controller
 class VisitController {
-
-	private static final String FRAGMENTS_PETS_VISITS = "fragments/pets :: visits";
 
 	private final OwnerRepository owners;
 
@@ -63,7 +62,9 @@ class VisitController {
 	@ModelAttribute("visit")
 	public Visit loadPetWithVisit(@PathVariable("ownerId") int ownerId, @PathVariable("petId") int petId,
 			Map<String, Object> model) {
-		Owner owner = this.owners.findById(ownerId);
+		Optional<Owner> optionalOwner = owners.findById(ownerId);
+		Owner owner = optionalOwner.orElseThrow(() -> new IllegalArgumentException(
+				"Owner not found with id: " + ownerId + ". Please ensure the ID is correct "));
 
 		Pet pet = owner.getPet(petId);
 		model.put("pet", pet);
@@ -81,35 +82,18 @@ class VisitController {
 		return "pets/createOrUpdateVisitForm";
 	}
 
-	@HxRequest
-	@GetMapping("/owners/{ownerId}/pets/{petId}/visits/new")
-	public String htmxInitNewVisitForm() {
-		return FRAGMENTS_PETS_VISITS;
-	}
-
 	// Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is
 	// called
 	@PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
 	public String processNewVisitForm(@ModelAttribute Owner owner, @PathVariable int petId, @Valid Visit visit,
-			BindingResult result) {
-		return handleProcessNewVisitForm(owner, petId, visit, result, "pets/createOrUpdateVisitForm");
-	}
-
-	@HxRequest
-	@PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
-	public String htmxProcessNewVisitForm(@ModelAttribute Owner owner, @PathVariable int petId, @Valid Visit visit,
-			BindingResult result) {
-		return handleProcessNewVisitForm(owner, petId, visit, result, FRAGMENTS_PETS_VISITS);
-	}
-
-	protected String handleProcessNewVisitForm(@ModelAttribute Owner owner, @PathVariable int petId, @Valid Visit visit,
-			BindingResult result, String errorView) {
+			BindingResult result, RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
-			return errorView;
+			return "pets/createOrUpdateVisitForm";
 		}
 
 		owner.addVisit(petId, visit);
 		this.owners.save(owner);
+		redirectAttributes.addFlashAttribute("message", "Your visit has been booked");
 		return "redirect:/owners/{ownerId}";
 	}
 

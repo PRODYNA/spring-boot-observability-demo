@@ -8,10 +8,10 @@ locals {
     person = {
       repository = "person"
       tag        = "1.0.0"
-  },
+    },
     spring_petclinic = {
       repository = "spring-petclinic"
-      tag        = "3.0.0"
+      tag        = "3.0.1"
     }
   }
 }
