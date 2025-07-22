@@ -60,6 +60,10 @@ output "petclinic_hostname" {
   value = cloudflare_record.petclinic-prodyna-wtf.hostname
 }
 
+output "tracker_hostname" {
+  value = cloudflare_record.tracker-prodyn-wtf.hostname
+}
+
 output "database" {
   value = local.database
   sensitive = true
