@@ -1,5 +1,11 @@
-FROM payara/server-full:6.2023.12
+FROM maven:3.9.6-eclipse-temurin-21 AS build
 
-COPY target/postgresql.jar /tmp
-COPY target/cargo-tracker.war /tmp
-COPY post-boot-commands.asadmin /opt/payara/config/
+WORKDIR /app
+COPY pom.xml .
+COPY src src/
+RUN mvn clean package -DskipTests
+RUN ls -lF /app/
+
+FROM open-liberty:latest
+COPY --from=build /app/target/cargo-tracker.war /config/dropins/
+

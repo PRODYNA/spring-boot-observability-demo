@@ -1,0 +1,5 @@
+FROM open-liberty/open-liberty:full-java21-openj9-ubi
+
+#COPY target/postgresql.jar /tmp
+COPY --from=build target/cargotracker.war /opt/payara/deployments/
+COPY post-boot-commands.asadmin /opt/payara/config/
