@@ -9,10 +9,13 @@ locals {
       repository = "person"
       tag        = "1.0.0"
     },
-    spring_petclinic = {
-      repository = "spring-petclinic"
+    petclinic = {
+      repository = "etclinic"
       tag        = "3.0.1"
+    }
+    tracker = {
+      repository = "tracker"
+      tag        = "1.0.0"
     }
   }
 }
-

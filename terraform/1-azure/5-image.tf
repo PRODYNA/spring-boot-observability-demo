@@ -5,8 +5,14 @@ resource "terraform_data" "build_person" {
   }
 }
 
-resource "terraform_data" "build_spring_petclinic" {
+resource "terraform_data" "build_petclinic" {
   provisioner "local-exec" {
-    command = "az acr build -r ${azurerm_container_registry.main.name} --build-arg VERSION=${local.image.spring_petclinic.tag} -t ${local.image.spring_petclinic.repository}:${local.image.spring_petclinic.tag} ../../app/spring-petclinic -g ${azurerm_resource_group.main.name}"
+    command = "az acr build -r ${azurerm_container_registry.main.name} --build-arg VERSION=${local.image.petclinic.tag} -t ${local.image.petclinic.repository}:${local.image.petclinic.tag} ../../app/spring-petclinic -g ${azurerm_resource_group.main.name}"
+  }
+}
+
+resource "terraform_data" "build_tracker" {
+  provisioner "local-exec" {
+    command = "az acr build -r ${azurerm_container_registry.main.name} --build-arg VERSION=${local.image.tracker.tag} -t ${local.image.tracker.repository}:${local.image.tracker.tag} ../../app/cargotracker -g ${azurerm_resource_group.main.name}"
   }
 }

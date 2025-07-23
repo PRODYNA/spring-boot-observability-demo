@@ -18,12 +18,12 @@ resource "helm_release" "grafana" {
   ]
   set {
       name  = "ingress.hosts[0]"
-      value = data.terraform_remote_state.azure.outputs.grafana_hostname
+      value = data.terraform_remote_state.azure.outputs.app.grafana.hostname
     }
 
   set {
     name  = "ingress.tls[0].hosts[0]"
-    value = data.terraform_remote_state.azure.outputs.grafana_hostname
+    value = data.terraform_remote_state.azure.outputs.app.grafana.hostname
   }
 
   depends_on = [

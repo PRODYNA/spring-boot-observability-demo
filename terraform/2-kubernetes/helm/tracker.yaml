@@ -1,0 +1,27 @@
+fullnameOverride: tracker
+
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-traefik
+  hosts:
+    - host: dummy
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    - secretName: person-tls
+      hosts:
+        - dummy
+
+image:
+  pullPolicy: Always
+
+livenessProbe: {}
+#  httpGet:
+#    path: /
+#    port: http
+readinessProbe: {}
+#  httpGet:
+#    path: /
+#    port: http

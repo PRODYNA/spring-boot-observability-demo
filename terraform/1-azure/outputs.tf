@@ -24,22 +24,6 @@ output "subscription_id" {
 #   value = data.azurerm_resource_group.main.name
 # }
 
-output "person_image_name" {
-  value = "${azurerm_container_registry.main.login_server}/${local.image.person.repository}"
-}
-
-output "person_image_tag" {
-  value = local.image.person.tag
-}
-
-output "spring_petclinic_image_name" {
-  value = "${azurerm_container_registry.main.login_server}/${local.image.spring_petclinic.repository}"
-}
-
-output "spring_petclinic_image_tag" {
-  value = local.image.spring_petclinic.tag
-}
-
 output "project_name" {
   value = var.project_name
 }
@@ -48,23 +32,36 @@ output "app_name" {
   value = "${var.project_name}.prodyna.wtf"
 }
 
-output "grafana_hostname" {
-  value = cloudflare_record.grafana-prodyna-wtf.hostname
-}
-
-output "person_hostname" {
-  value = cloudflare_record.person-prodyna-wtf.hostname
-}
-
-output "petclinic_hostname" {
-  value = cloudflare_record.petclinic-prodyna-wtf.hostname
-}
-
-output "tracker_hostname" {
-  value = cloudflare_record.tracker-prodyn-wtf.hostname
-}
-
 output "database" {
   value = local.database
   sensitive = true
+}
+
+output "app" {
+  value = {
+    grafana = {
+      hostname = cloudflare_record.grafana-prodyna-wtf.hostname
+    },
+    petclinic = {
+      hostname = cloudflare_record.petclinic-prodyna-wtf.hostname
+      image = {
+        name = "${azurerm_container_registry.main.login_server}/${local.image.petclinic.repository}"
+        tag  = local.image.petclinic.tag
+      }
+    },
+    person = {
+      hostname = cloudflare_record.person-prodyna-wtf.hostname
+      image = {
+        name = "${azurerm_container_registry.main.login_server}/${local.image.person.repository}"
+        tag  = local.image.person.tag
+      }
+    },
+    tracker = {
+      hostname = cloudflare_record.tracker-prodyna-wtf.hostname
+      image = {
+        name = "${azurerm_container_registry.main.login_server}/${local.image.tracker.repository}"
+        tag  = local.image.tracker.tag
+      }
+    }
+  }
 }

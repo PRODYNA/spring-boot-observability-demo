@@ -19,22 +19,22 @@ resource "helm_release" "person" {
 
   set {
     name = "image.repository"
-    value = data.terraform_remote_state.azure.outputs.person_image_name
+    value = data.terraform_remote_state.azure.outputs.app.person.image.name
   }
 
   set {
     name = "image.tag"
-    value = data.terraform_remote_state.azure.outputs.person_image_tag
+    value = data.terraform_remote_state.azure.outputs.app.person.image.tag
   }
 
   set {
     name  = "ingress.hosts[0].host"
-    value = data.terraform_remote_state.azure.outputs.person_hostname
+    value = data.terraform_remote_state.azure.outputs.app.person.hostname
   }
 
   set {
     name  = "ingress.tls[0].hosts[0]"
-    value = data.terraform_remote_state.azure.outputs.person_hostname
+    value = data.terraform_remote_state.azure.outputs.app.person.hostname
   }
 
   set {

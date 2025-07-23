@@ -31,7 +31,7 @@ resource "cloudflare_record" "petclinic-prodyna-wtf" {
 }
 
 
-resource "cloudflare_record" "tracker-prodyn-wtf" {
+resource "cloudflare_record" "tracker-prodyna-wtf" {
     zone_id = var.cloudflare_zone_id
     name    = "tracker.${var.project_name}"
     content = azurerm_public_ip.ingress.ip_address

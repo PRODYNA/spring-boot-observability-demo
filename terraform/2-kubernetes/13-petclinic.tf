@@ -19,22 +19,22 @@ resource "helm_release" "petclinic" {
 
   set {
     name = "image.repository"
-    value = data.terraform_remote_state.azure.outputs.spring_petclinic_image_name
+    value = data.terraform_remote_state.azure.outputs.app.petclinic.image.name
   }
 
   set {
     name = "image.tag"
-    value = data.terraform_remote_state.azure.outputs.spring_petclinic_image_tag
+    value = data.terraform_remote_state.azure.outputs.app.petclinic.image.tag
   }
 
   set {
     name  = "ingress.hosts[0].host"
-    value = data.terraform_remote_state.azure.outputs.petclinic_hostname
+    value = data.terraform_remote_state.azure.outputs.app.petclinic.hostname
   }
 
   set {
     name  = "ingress.tls[0].hosts[0]"
-    value = data.terraform_remote_state.azure.outputs.petclinic_hostname
+    value = data.terraform_remote_state.azure.outputs.app.petclinic.hostname
   }
 
   set {
